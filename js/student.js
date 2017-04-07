@@ -56,6 +56,8 @@ $(function()
 });
 
 
+
+
 function getStudentId(student_id)
 {
 	var result = confirm("Want to delete record?");
@@ -76,6 +78,18 @@ function getStudentId(student_id)
 				$("#error-msg").show();	
 			}
 		},'json');
-    }	
+    }
+
+    function unlock() {
+      $.ajax({
+           type: "GET",
+           url: 'include/functions.php',
+           data:{action:'unlock'},
+           success:function(html) {
+             alert(html);
+           }
+
+      });
+ }	
 }
 

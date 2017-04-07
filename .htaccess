@@ -1,0 +1,10 @@
+<FilesMatch ".*\.(jpe?g|JPE?G|gif|GIF|png|PNG|swf|SWF|pdf|PDF)$" >
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
+
+RewriteEngine on
+
+RewriteRule ^index$ index.php [L]
+RewriteRule ^edit$ editStudent.php [NC]
+

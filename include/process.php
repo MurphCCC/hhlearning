@@ -1,5 +1,6 @@
 <?php
-	$db_con = new PDO('mysql:host=localhost;dbname=updater', 'root', 'N0bigdeal');
+	include_once("functions.php");
+    $db_con = new PDO('mysql:host=localhost;dbname=updater', 'root', 'N0bigdeal');
 	$error  = array();
 	$res    = array();
 	$success = "";
@@ -89,10 +90,7 @@
 		  				c1_course  = :c1_course, 
 		  				c1_teacher = :c1_teacher,
 		  				c1_grade   = :c1_grade,
-		  				c1_feedback = :c1_feedback,
-		  				c2_teacher = :c2_teacher,
-		  				c2_grade   = :c2_grade,
-		  				c2_feedback = :c2_feedback		  				
+		  				c1_feedback = :c1_feedback
 		  				 WHERE student_id = :student_id";
 		  $run = $db_con->prepare($sqlQuery);
 		  $run->bindParam(':first_name', $_POST['first_name'], PDO::PARAM_STR);  
@@ -100,11 +98,7 @@
 		  $run->bindParam(':c1_course', $_POST['c1_course'], PDO::PARAM_STR); 
 		  $run->bindParam(':c1_teacher',$_POST['c1_teacher'], PDO::PARAM_STR); 
 		  $run->bindParam(':c1_grade', $_POST['c1_grade'], PDO::PARAM_STR);
-		  $run->bindParam(':c1_feedback', $_POST['c1_feedback'], PDO::PARAM_STR);
-		  $run->bindParam(':c2_course', $_POST['c2_course'], PDO::PARAM_STR); 
-		  $run->bindParam(':c2_teacher',$_POST['c2_teacher'], PDO::PARAM_STR); 
-		  $run->bindParam(':c2_grade', $_POST['c2_grade'], PDO::PARAM_STR);
-		  $run->bindParam(':c2_feedback', $_POST['c2_feedback'], PDO::PARAM_STR);		  
+		  $run->bindParam(':c1_feedback', $_POST['c1_feedback'], PDO::PARAM_STR);		  
 		  $run->bindParam(':student_id', $_POST['student_id'], PDO::PARAM_STR);
 		  $run->execute(); 
 		  		   			if (!$run) {
@@ -114,8 +108,10 @@
 		  $resp['msg']    = "Student" . gettype($_POST['student_id']) . "updated successfully";
 		  $resp['status'] = true;	
 		  echo json_encode($resp);
-	  
-		   exit; 	
+		  $lock = new dbLocker;
+	   	  $lock->unlock();
+		  exit; 	
+
 
 	}
 	else if(isset($_REQUEST['action']) && $_REQUEST['action'] == "deleteStudent")
