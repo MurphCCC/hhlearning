@@ -1,3 +1,5 @@
+var x = 0;
+
 $(function()
 {
 	$('#addStudent').click(function(event){
@@ -55,7 +57,10 @@ $(function()
 	});
 });
 
-
+	$('#cancel').click(function(event){
+		event.preventDefault();
+		$.get('./index.php');
+});
 
 
 function getStudentId(student_id)
@@ -93,3 +98,14 @@ function getStudentId(student_id)
  }	
 }
 
+//reload our list of users
+function reloadList() {
+	if (x < 2) {
+		setInterval(function(){
+		  $("#students_list").load(location.href + " #students_list"); 
+		  console.log(x);
+		}, 5000);
+	} else {
+		console.log('false');
+	}
+}

@@ -4,6 +4,13 @@
 	$error  = array();
 	$res    = array();
 	$success = "";
+
+	
+
+	if (isset($_GET['unlock'])) {
+		$dblock->unlockClass($_GET['student_id'], $_GET['course']);
+	} else {};
+
 	if(isset($_REQUEST['action']) && $_REQUEST['action'] == "addStudent")
 	{
 		if(empty($_POST['first_name']))
@@ -14,14 +21,7 @@
 		{
 			$error[] = "Last Name field is required";	
 		}
-		if(empty($_POST['c1_course']))
-		{
-			$error[] = "Email field is required";	
-		}
-		if(empty($_POST['c1_teacher']))
-		{
-			$error[] = "User Name field is required";	
-		}
+
 		 
 		if(count($error)>0)
 		{
@@ -66,15 +66,6 @@
 		{
 			$error[] = "edit Student error2";	
 		}
-		if(empty($_POST['c1_course']))
-		{
-			$error[] = "edit Student error3";	
-		}
-		if(empty($_POST['c1_teacher']))
-		{
-			$error[] = "edit Student error4";	
-		}
-	
 
 
 		if(count($error)>0)
@@ -108,8 +99,7 @@
 		  $resp['msg']    = "Student" . gettype($_POST['student_id']) . "updated successfully";
 		  $resp['status'] = true;	
 		  echo json_encode($resp);
-		  $lock = new dbLocker;
-	   	  $lock->unlock();
+	   	  $dblock->unlock($_POST['student_id']);
 		  exit; 	
 
 
@@ -134,5 +124,7 @@
 		print_r($row);
 		echo "</pre>";
 	}
+
+
 
 ?>
