@@ -2,7 +2,6 @@
 	  include_once("header.php");
 	  include_once("include/config.php");
 	  include_once("include/functions.php");
-
 	   $fetch_student_info = $db_con->prepare("SELECT * from students where student_id = :student_id");
        $fetch_lock = $db_con->prepare("SELECT c1lock, c2lock, c3lock, c4lock, c5lock, c6lock, c7lock FROM students WHERE student_id = :student_id");
        $fetch_lock->execute(array(':student_id' => $_GET['student_id']));
@@ -11,8 +10,6 @@
 	   $list = $fetch_student_info->fetch(PDO::FETCH_ASSOC);
 
 	   $i = 1;
-	   echo json_encode($locks['c2lock']);
-	   echo $list['c2_course'];
 
 ?>
 
@@ -21,7 +18,7 @@
 		<div class="row">
 		  					<?php
 
-  							if ($list['lock'] === '1') {
+  							if ($list['lock'] === '1' && $list['c1editor'] != $_SESSION['username']) {
   								echo '<div class="jumbotron">';
   								echo '<h1> Sorry this student is currently being edited.</h1>';
   								echo '</div>';
@@ -34,38 +31,9 @@
 					<div class="form-actions" id="form-actions">
 						<button class="btn btn-primary" type="button" id="editStudent">Save</button> 
 						<button class="btn btn-danger" type="button" id="cancel" onclick="cancel()">Cancel</button>
+						<a href="print-beta.php?student_id=<?php echo $list['student_id']?>" target="_blank"><button class="btn btn-info" type="button" id="print">Print full report</button></a>
 					</div> <!-- /form-actions -->
-						<script>
-							for (var i = 2; i <= 7; i++) {
-								var button = '';
-									button += '<button type="button" id="class'+ i  +'" class="btn btn-default" >Class '+ i +'</button>';
-									document.getElementById("form-actions").innerHTML += button;
-								};
 
-								$("button#class2").one("click", function() {
-									showClass(2);
-								});
-
-								$("button#class3").one("click", function() {
-									showClass(3);
-								});
-								
-								$("button#class4").one("click", function() {
-									showClass(4);
-								});							
-								
-								$("button#class5").one("click", function() {
-									showClass(5);
-								});	
-								
-								$("button#class6").one("click", function() {
-									showClass(6);
-								});												
-								
-								$("button#class7").one("click", function() {
-									showClass(7);
-								});												
-						</script>
   
   							<div class="alert" id="error-msg">
 
@@ -74,9 +42,10 @@
   							<div class="alert alert-success" id="success-msg">
 
   							</div>
-
 								<form class="form-horizontal" id="edit-student-form" method="post">
-									<fieldset>
+	
+
+ 									<fieldset>
 										<input type="hidden" name="student_id" value="<?php echo $list['student_id']; ?>">
 										
 										<div class="control-group">											
@@ -97,95 +66,45 @@
 										<!--  -->
 										 <br>
 										 <div name="classx" id="classx">
-										 <!-- <?php
-											$i = 1;
-											$course = $list['c .$i. course'];
-											echo $course;
-											echo 'hello';
-												while ($i <= 7) {
-													if ($list['c'.$i.'lock'] != 0) {
-														echo '<center>Sorry course '.$i.' is currently being edited by another teacher.</center>';
-													} else {
-														echo '<div class="control-group">';
-														echo '<label for="course" class="control-label">Class'.$i.' Course</label>';
-														echo '<div class="controls">';
-		echo '<input type="text" value="'.$list[c.$i._course].'" name="c'.$i.'course" required id="c'.$i.'course" class="span6">';
-														echo '</div></div>';
-
-														break;
-													}
-													$i++;
-												}
-
-											?> -->
+										
 <?php
+
 	while ($i <= 7) {
-		if ($list['c'.$i.'lock'] != 0) {
-			echo '<center>Sorry course '.$i.' is currently being edited by another teacher.</center>';
+		$user = $_SESSION['username'];
+		if ($list['c'.$i.'lock'] != 0 && $list['c'.$i.'_teacher'] != $_SESSION['username']) {
+			echo 'Course '.$i.' is currently being edited by <strong>' . $list['c'.$i . '_teacher'] . '</strong><br>';
 		} else {
 			echo '<div class="control-group">';
 			echo '<label for="course" class="control-label">Class'.$i.' Course</label>';
 			echo '<div class="controls">';
-			echo '<input type="text" value="'.$list[c.$i._course].'" name="c'.$i.'course" required id="c'.$i.'course" class="span6">';
+			echo '<input type="text" value="'.$list[c.$i._course].'" name="c'.$i.'_course" required id="c'.$i.'course" class="span6">';
 			echo '</div></div>';
 
-			echo '<div class="control-group">';
-			echo '<label for="course" class="control-label">Class'.$i.' Teacher</label>';
-			echo '<div class="controls">';
-			echo '<input type="text" value="'.$list[c.$i._teacher].'" name="c'.$i.'teacher" required id="c'.$i.'teacher" class="span6">';
-			echo '</div></div>';
+			// echo '<div class="control-group">';
+			// echo '<label for="course" class="control-label">Class'.$i.' Teacher</label>';
+			// echo '<div class="controls">';
+			// echo '<input type="text" value="'.$list[c.$i._teacher].'" name="c'.$i.'_teacher" required id="c'.$i.'teacher" class="span6">';
+			// echo '</div></div>';
 
 			echo '<div class="control-group">';
 			echo '<label for="course" class="control-label">Class'.$i.' grade</label>';
 			echo '<div class="controls">';
-			echo '<input type="text" value="'.$list[c.$i._grade].'" name="c'.$i.'grade" required id="c'.$i.'grade" class="span6">';
-			echo '</div></div>';		
+			echo '<input type="text" value="'.$list[c.$i._grade].'" name="c'.$i.'_grade" required id="c'.$i.'grade" class="span6">';
+			echo '</div></div>';
+
+			echo '<div class="control-group">';
+			echo '<label for="feedback" class="control-label">Feedback</label>';
+			echo '<div class="controls">';
+			echo '<textarea rows="10" columns="10" value="'.$list[c.$i._feedback].'" name="c'.$i.'_feedback" id="c'.$i.'_feedback"class="span6">'.$list[c.$i._feedback].'</textarea>';		
+			echo '</div></div>';
+
 			break;
 		}
 
 		$i++;
 	}
 ?>
-<!-- 										 <script>
 
-										 function showClass(num) {
-										 	var course = '<?php echo $i; ?>';
-										 	var html = '';
-										 	console.log(num);
-										 	html += '<div class="control-group">';
-										    html += '<label for="class" class="control-label">Class '+ num + ' Course</label>';
-										    html += '<div class="controls">';
-										    html += '<input type="text" value="<?php echo '.$list[c.$i._course].';?>" name="c'+ num +'_course"   required id="c'+ num +'_course" class="span6">';
-										    html += '</div>';
-										    html += '</div>';
-
-										 	html += '<div class="control-group">';
-										    html += '<label for="class" class="control-label">Class '+ num + ' Teacher</label>';
-										    html += '<div class="controls">';
-										    html += '<input type="text" value="<?php echo $list['c'+ num +'_teacher']; ?>" placeholder="Teacher' + num +'"name="c'+ num +'_teacher"   required id="c'+ num +'_teacher" class="span6">';
-										    html += '</div>';
-										    html += '</div>';	
-
-										 	html += '<div class="control-group">';
-										    html += '<label for="class" class="control-label">Class '+ num + ' Grade</label>';
-										    html += '<div class="controls">';
-										    html += '<input type="number" value="<?php echo $list['c'+ num +'_grade']; ?>" placeholder="Grade' + num +'"name="c'+ num +'_grade"   required id="c'+ num +'_grade" class="span3">';
-										    html += '</div>';
-										    html += '</div>';	
-
-										    html += '<div class="control-group">';
-										    html += '<label for="class" class="control-label">Class '+ num + ' Feedback</label>';
-										    html += '<div class="controls">';
-										    html += '<textarea rows="10" value="" name="c'+ num +'_feedback" required id="c'+ num +'_feedback" class="span6"><?php echo $list['c'+ num +'_feedback']; ?></textarea>';
-										    html += '</div>';
-										    html += '</div>';										    									    
-										 	document.getElementById('classx').innerHTML += html;
-										 }
-
-										</script>
-										<script>
-										showClass(3)
-										</script> -->
 
 
 										</div>
@@ -218,7 +137,29 @@
 				window.location = 'index.php';
 			}
 </script>
-          
+          <script>
+          	for (i = 1; i <= 7; i++) {
+          	document.getElementById("c" + i + "course").addEventListener("keyup", function(event) {
+    			event.preventDefault();
+    				if (event.keyCode == 13) {
+        			document.getElementById("editStudent").click();
+    				}	
+			});
+          };
+
+			</script>
+
+			<script>
+			          	for (i = 1; i <= 7; i++) {
+          	document.getElementById("c" + i + "grade").addEventListener("keyup", function(event) {
+    			event.preventDefault();
+    				if (event.keyCode == 91 && 82) {
+        			document.getElementById("editStudent").click();
+    				}	
+			});
+          }
+			</script>
+
          
           <?php 
 

@@ -28,8 +28,9 @@ include_once("config.php");	// Our DB connection resides here
 			$lock = 1;
 			global $db_con;	// Our database connection, created in config.php
 
-			$b= $db_con->prepare("UPDATE students SET `c".$class."lock`= $lock WHERE student_id = :student_id");
+			$b= $db_con->prepare("UPDATE students SET `c".$class."lock`= $lock, `c".$class."_teacher` = :teacher WHERE student_id = :student_id");
 			$b->bindParam(":student_id",$_GET['student_id'], PDO::PARAM_STR);
+			$b->bindParam(":teacher",$_SESSION['username'], PDO::PARAM_STR);
 			$b->execute();
 			$b = null;
 		}

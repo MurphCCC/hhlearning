@@ -2,32 +2,31 @@ var x = 0;
 
 $(function()
 {
-	$('#addStudent').click(function(event){
-		event.preventDefault();
-		$.post('include/process.php?action=addStudent',$('#add-student-form').serialize(),function(resp)
-		{
-			if (resp['status'] == true)
-			{
-				$("#success-msg").html(resp['msg']);
-				$("#success-msg").show();
-				setTimeout(function()
-				{ 
-				location.href = "index.php";
-				 },1000);
-			}
-			else
-			{
-				var htm = '<button data-dismiss="alert" class="close" type="button">×</button>';
-				$.each(resp['msg'],function(index,val){
-					htm += val+" <br>";
-					});
-				$("#error-msg").html(htm);
-				$("#error-msg").show();	
-				$(this).prop('disabled',false);
-			}
-		},'json');
-	});
-	
+	// $('#addStudent').click(function(event){
+	// 	event.preventDefault();
+	// 	$.post('include/process.php?action=addStudent',$('#add-student-form').serialize(),function(resp)
+	// 	{
+	// 		if (resp['status'] == true)
+	// 		{
+	// 			$("#success-msg").html(resp['msg']);
+	// 			$("#success-msg").show();
+	// 			setTimeout(function()
+	// 			{ 
+	// 			location.href = "index.php";
+	// 			 },1000);
+	// 		}
+	// 		else
+	// 		{
+	// 			var htm = '<button data-dismiss="alert" class="close" type="button">×</button>';
+	// 			$.each(resp['msg'],function(index,val){
+	// 				htm += val+" <br>";
+	// 				});
+	// 			$("#error-msg").html(htm);
+	// 			$("#error-msg").show();	
+	// 			$(this).prop('disabled',false);
+	// 		}
+	// 	},'json');
+	// });
 	
 	
 	$('#editStudent').click(function(event){
@@ -107,5 +106,13 @@ function reloadList() {
 		}, 5000);
 	} else {
 		console.log('false');
+	}
+}
+
+function printFirstName() {
+	for (i = 0; i <= students.length; i++) {
+  			var student = students[i];
+  			console.log(students.length);
+  			console.log(student.student_id);
 	}
 }

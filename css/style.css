@@ -9,8 +9,11 @@ Bootstrap Admin Template by EGrappler.com
 */
 
 body {
-	background: #f9f6f1;
-	font: 13px/1.7em 'Open Sans';
+/*	background: #f9f6f1;
+*/	font: 13px/1.7em 'Open Sans';
+background-color: #386ea8;
+background-image: url("https://www.transparenttextures.com/patterns/always-grey.png");
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 }
     
 p { 
@@ -54,7 +57,23 @@ textarea {
 	color: #444;
 	text-transform: uppercase;
 }
+table {
+	box-shadow: 5px 5px 10px 1px rgba(255, 255, 255, 0.36);
+}
 
+input#searchbar {
+    height: 50px;
+    width: 400px;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    position: relative;
+    left: 31%;
+    background: #f9f6f1;
+    border: 1px solid black;
+    color: black;
+    font-size: 2em;
+}
 
 
 
@@ -1130,7 +1149,19 @@ color: #333;
 .ML0 { margin-left:0}
 .MR0 { margin-right:0;}
 
-
+input#searchbar {
+    height: 50px;
+    width: 400px;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    position: relative;
+    left: 31%;
+    background: #f9f6f1;
+    border: 1px solid black;
+    color: black;
+    font-size: 2em;
+}
 
 /*------------------------------------------------------------------
 [1. Max Width: 480px]
@@ -1283,4 +1314,9 @@ color: #333;
 	}
 	
 }
+
+
+
+
+/*	Responsive FlexBox test */
 
