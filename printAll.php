@@ -93,11 +93,10 @@ class PDF extends FPDF
     }
 }
 
-    $statement = $db_con->prepare("SELECT * from students WHERE student_id = :student_id");
-    $statement->execute(array(':student_id' => $_GET['student_id']));
-    $student = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-    $pdf = new PDF();
+     $statement = $db_con->prepare("SELECT * from students WHERE student_id > :student_id LIMIT 500");
+     $statement->execute(array(':student_id' => 0));
+     $student = $statement->fetchAll(PDO::FETCH_ASSOC);
+     $pdf = new PDF();
 
         if ($student) {
 
@@ -124,18 +123,22 @@ class PDF extends FPDF
                             $pdf->SetFont('Times','B',10);
                             $pdf->Cell(10);
                             $course = "Course: " . $row['c'.$i.'_course'];
+                            $course = iconv('UTF-8', 'windows-1252', trim($course));
                             $pdf->Cell(0,5,$course,0,1,'L');
                             
                             $pdf->Ln(1);
                             
                             $pdf->Cell(10);
                             $grade = "Grade: " . $row['c'.$i.'_grade'];
+                            $grade = iconv('UTF-8', 'windows-1252', trim($grade));
                             $pdf->Cell(0,5,$grade,0,1,'L');
                             
                             $pdf->Ln(1);
                             
                             $pdf->Cell(10);
                             $teacher = "Instructor: " . $row['c'.$i.'_teacher'];
+                            $teacher = trim($teacher);
+                            $teacher = iconv('UTF-8', 'windows-1252', trim($teacher));
                             $pdf->Cell(0,5,$teacher,0,1,'L');
                             
                             $pdf->Ln(1);
