@@ -4,6 +4,8 @@ body {
   background-color: #eee;
 }
 
+
+
 .form-signin, .form-signup {
   max-width: 330px;
   padding: 15px;
@@ -52,9 +54,15 @@ input#searchbar {
     margin: 10px;
     text-align: center;
     position: relative;
-    left: 31%;
+    left: 50%;
     background: #f9f6f1;
     border: 1px solid black;
     color: black;
     font-size: 2em;
+}
+form.blue.lighten-2.student {
+    position: relative !important;
+    width: 25% !important;
+    height: 63px !important;
+    left: 21vw !important;
 }

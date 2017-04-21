@@ -1,118 +1,90 @@
-var x = 0;
+// This is the script to manage the modal for deleting our student.  We want to pass in the student's name, and id from the table and present the teacher with an accept or cancel button.  The accept button, when clicked should send a post request to the process.php?action=deleteStudent&student_id=student id.  The cancel button should just close the modal. 
 
-$(function()
-{
-	// $('#addStudent').click(function(event){
-	// 	event.preventDefault();
-	// 	$.post('include/process.php?action=addStudent',$('#add-student-form').serialize(),function(resp)
-	// 	{
-	// 		if (resp['status'] == true)
-	// 		{
-	// 			$("#success-msg").html(resp['msg']);
-	// 			$("#success-msg").show();
-	// 			setTimeout(function()
-	// 			{ 
-	// 			location.href = "index.php";
-	// 			 },1000);
-	// 		}
-	// 		else
-	// 		{
-	// 			var htm = '<button data-dismiss="alert" class="close" type="button">×</button>';
-	// 			$.each(resp['msg'],function(index,val){
-	// 				htm += val+" <br>";
-	// 				});
-	// 			$("#error-msg").html(htm);
-	// 			$("#error-msg").show();	
-	// 			$(this).prop('disabled',false);
-	// 		}
-	// 	},'json');
-	// });
-	
-	
-	$('#editStudent').click(function(event){
-		event.preventDefault();
-		$.post('include/process.php?action=editStudent',$('#edit-student-form').serialize(),function(resp)
-		{
-			if (resp['status'] == true)
-			{
-				$("#success-msg").html(resp['msg']);
-				$("#success-msg").show();
-				setTimeout(function()
-				{ 
-				location.href = "index.php";
-				 },1000);
-			}
-			else
-			{
-				var htm = '<button data-dismiss="alert" class="close" type="button">×</button>';
-				$.each(resp['msg'],function(index,val){
-					htm += val+" <br>";
-					});
-				$("#error-msg").html(htm);
-				$("#error-msg").show();	
-				$(this).prop('disabled',false);
-			}
-		},'json');
-	});
+$(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal').modal();
 });
 
-	$('#cancel').click(function(event){
-		event.preventDefault();
-		$.get('./index.php');
-});
+// Button to trigger our Add Student modal
+$('a.addStudent').click(function(){
+  $('#addStudentModal').modal('open');
+  return false;
 
+})
 
-function getStudentId(student_id)
-{
-	var result = confirm("Want to delete record?");
-	var student_id = "student_id="+student_id;
-    if (result) {
-		
-		$.post('include/process.php?action=deleteStudent',student_id,function(resp)
-		{
-			if (resp['status'] == true)
-			{
-				$("#row_num_"+student_id).html('');
-				$("#success-msg").html(resp['msg']);
-				$("#success-msg").show();
-			}
-			else
-			{
-				$("#error-msg").html(htm);
-				$("#error-msg").show();	
-			}
-		},'json');
-    }
+// Stuff inside our Add student modal
 
-    function unlock() {
-      $.ajax({
-           type: "GET",
-           url: 'include/functions.php',
-           data:{action:'unlock'},
-           success:function(html) {
-             alert(html);
-           }
+// Make sure our first letter of each input field is uppercase and the rest are lowercase.  Remove any whitespace.
+$('#student_name_first').keyup(function() {
+        this.value = this.value.charAt(0).toUpperCase()+this.value.slice(1).toLowerCase();
+    });
 
-      });
- }	
-}
+$('#student_name_last').keyup(function() {
+        this.value = this.value.charAt(0).toUpperCase()+this.value.slice(1).toLowerCase();
+    });
 
-//reload our list of users
-function reloadList() {
-	if (x < 2) {
-		setInterval(function(){
-		  $("#students_list").load(location.href + " #students_list"); 
-		  console.log(x);
-		}, 5000);
-	} else {
-		console.log('false');
-	}
-}
+$('a.add-button').click(function(){
+  $('#modal1').modal('close');
+    student = document.getElementById('modal_student_id');
+    first = document.getElementById('student_name_first').value.trim();
+    last = document.getElementById('student_name_last').value.trim();
+    console.log(first + ' ' + last);
+    $.post('include/process.php?action=addStudent','first_name=' + first + '&last_name=' + last);
+    Materialize.toast('Student Added', 4000, 'rounded red lighten-2');
+    location.reload();
+})
+ 
 
-function printFirstName() {
-	for (i = 0; i <= students.length; i++) {
-  			var student = students[i];
-  			console.log(students.length);
-  			console.log(student.student_id);
-	}
+// Button to trigger Delete Student modal
+$('a.deleteButton').click(function(){
+  var id = $(this).attr('student_id');
+  var name = $(this).attr('student_name').split('+');
+  fullname = name[0] + ' ' + name[1];
+  console.log(fullname);
+  $('#modal1').modal('open');
+  document.getElementById('student_id_goes_here').innerHTML = fullname + ' ?';
+  document.getElementById('student_id_goes_here').innerHTML += '<input id="modal_student_id" type="hidden" value="'+id+'">';
+  return false;
+
+})
+
+// Cancel button inside delete student modal
+$('a.cancel-button').click(function(){
+  document.getElementById('student_id_goes_here').innerHTML = 'No changes have been made to student';
+  $('#modal1').modal('close');
+  Materialize.toast('No changes made', 4000, 'rounded blue lighten-2') 
+})
+
+// Agreee button inside Delete Student modal
+$('a.agree-button').click(function(){
+  $('#modal1').modal('close');
+    student = document.getElementById('modal_student_id');
+    id = $(student).val();
+    var student_id = "student_id="+id;
+   $.post('include/process.php?action=deleteStudent','student_id='+id);
+   console.log('include/process.php?action=deleteStudent','student_id='+id);
+  console.log(id);
+  Materialize.toast('Student deleted', 4000, 'rounded red lighten-2');
+  location.reload(); 
+})  
+
+// Search the table by student name
+function searchStudents() {
+  var input, filter, table, tr, td, i;
+  x = 0;
+  input = document.getElementById("search");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("keywords");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
 }
