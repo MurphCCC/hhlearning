@@ -25,7 +25,6 @@
       <form class="form-signup" id="usersignup" name="usersignup" method="post" action="createuser.php">
         <h2 class="form-signup-heading">Register</h2>
         <input name="newuser" id="newuser" type="text" class="form-control" placeholder="Username" autofocus>
-        <input name="teacher" id="teacher" type="text" class="form-control" placeholder="Teacher name">
         <input name="email" id="email" type="text" class="form-control" placeholder="Email">
 <br>
         <input name="password1" id="password1" type="password" class="form-control" placeholder="Password">
@@ -69,3 +68,4 @@ $( "#usersignup" ).validate({
 
   </body>
 </html>
+
