@@ -74,10 +74,10 @@
                       <?php
                       $i = 1;
                         echo '
-                          <a class="btn green lighten-2" href="editStudent.php?student_id='.$col[student_id].'">Edit Student<i class="material-icons left">edit</i></a>';
+                          <a class="btn green lighten-2" href="edit/'.$col[student_id].'">Edit Student<i class="material-icons left">edit</i></a>';
                       ?>
                     &nbsp&nbsp <a href="#modal1" class="waves-effect waves-light red btn modal-1 deleteButton" student_id=<?= $col['student_id'];?> student_name=<?= $col['first_name'] .'+'. $col['last_name'];?> id="deleteButton">Delete Student<i class="material-icons left">delete_forever</i></a>
-                     &nbsp&nbsp<a class="btn blue lighten-2 "href="printStudent.php?student_id=<?= $col['student_id']?>" target="_blank">Print full report<i class="material-icons left">print</i></a>
+                     &nbsp&nbsp<a class="btn blue lighten-2 "href="print/<?= $col['student_id']?>" target="_blank">Print full report<i class="material-icons left">print</i></a>
                     </td>
                   </tr>
              

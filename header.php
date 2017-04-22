@@ -6,6 +6,7 @@
 <html lang="en">
   
 <head>
+<BASE href="http://hhlearning.com/teacher/">
     <meta charset="utf-8">
     <title>Hilger Higher Learning Admin</title>
     
@@ -53,7 +54,7 @@
 
   <nav>
     <div class="nav-wrapper blue lighten-1">
-      <a href="index.php" class="brand-logo">Hilger Higher Learning</a>
+      <a href="/teacher" class="brand-logo">Hilger Higher Learning</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a class="waves-effect waves-light btn red rounded lighten-1" href="login/logout.php">Logout</a></li>
         <li><a class="btn green lighten-2" href="printAll.php" target="_blank">Print All Reports<i class="material-icons left">print</i></a></li>

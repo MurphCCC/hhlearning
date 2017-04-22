@@ -3,8 +3,13 @@
     Allow from all
 </FilesMatch>
 
-RewriteEngine on
+Options +FollowSymLinks -MultiViews
 
-RewriteRule ^index$ index.php [L]
-RewriteRule ^edit$ editStudent.php [NC]
+RewriteEngine On
+
+RewriteBase /teacher
+RewriteRule ^index?$ index.php
+RewriteRule ^edit/([0-9]+) editStudent.php?student_id=$1
+RewriteRule ^print/([0-9]+) printStudent.php?student_id=$1
+
 

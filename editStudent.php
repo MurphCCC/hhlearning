@@ -81,7 +81,7 @@
 					<div class="form-actions" id="form-actions">
 						<button class="btn btn-primary" type="submit" id="editStudent">Save</button> 
 						<button class="btn btn-danger" type="button" id="cancel" onclick="cancel()">Cancel</button>
-						<a href="printStudent.php?student_id=<?php echo $list['student_id']?>" target="_blank"><button class="btn btn-info" type="button" id="print">Print full report</button></a>
+						<a href="print/<?php echo $list['student_id']?>" target="_blank"><button class="btn btn-info" type="button" id="print">Print full report</button></a>
 					</div>
 
 					</div>			

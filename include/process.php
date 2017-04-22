@@ -2,7 +2,7 @@
 	include_once("functions.php");
 	require "../login/loginheader.php";
 
-    $db_con = new PDO('mysql:host=localhost;dbname=updater', 'root', 'N0bigdeal');
+    $db_con = new PDO('mysql:host=localhost;dbname=updater', 'updater', 'Eddy1010');
 	$error  = array();
 	$res    = array();
 	$success = "";
