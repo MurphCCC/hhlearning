@@ -1,12 +1,14 @@
-<?php
+<?php 
+require "login/loginheader.php"; 
+include_once("include/config.php");
+include_once("include/functions.php");
 
-    require "login/loginheader.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
   
 <head>
-<BASE href="http://hhlearning.com/teacher/">
+<BASE href="https://hhlearning.com/teacher/">
     <meta charset="utf-8">
     <title>Hilger Higher Learning Admin</title>
     
@@ -22,7 +24,6 @@
     <link href="css/style.css" rel="stylesheet">
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/student.js"></script>
-
 
 
   <!-- Compiled and minified JavaScript -->
@@ -56,8 +57,9 @@
     <div class="nav-wrapper blue lighten-1">
       <a href="/teacher" class="brand-logo">Hilger Higher Learning</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a class="waves-effect waves-light btn red rounded lighten-1" href="login/logout.php">Logout</a></li>
+	<li><a href="#addStudentModal" class="waves-effect waves-light btn orange modal-1 addStudent rounded">Add Student</a></li>
         <li><a class="btn green lighten-2" href="printAll.php" target="_blank">Print All Reports<i class="material-icons left">print</i></a></li>
+        <li><a class="waves-effect waves-light btn red rounded lighten-1" href="login/logout.php">Logout</a></li>
       </ul>
       <div class="col sm-1">
       <?php 
@@ -77,13 +79,9 @@
 
       ';
       } ?>
-      
+
       </div>
     </div>
   </nav>
-    
 
-
-
-    
 <!-- /subnavbar -->

@@ -66,3 +66,9 @@ form.blue.lighten-2.student {
     height: 63px !important;
     left: 21vw !important;
 }
+
+table#keywords {
+  display: block;
+  height: 10em;
+  overflow-y: auto;
+}

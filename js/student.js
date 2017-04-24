@@ -6,8 +6,10 @@ $(document).ready(function(){
 });
 
 // Button to trigger our Add Student modal
-$('a.addStudent').click(function(){
+$('a.addStudent').click(function(event){
+  event.preventDefault();
   $('#addStudentModal').modal('open');
+  console.log('is this thing on add student?');
   return false;
 
 })
@@ -24,29 +26,17 @@ $('#student_name_last').keyup(function() {
     });
 
 $('a.add-button').click(function(){
-  $('#modal1').modal('close');
+  $('#addStudentModal').modal('close');
     student = document.getElementById('modal_student_id');
     first = document.getElementById('student_name_first').value.trim();
     last = document.getElementById('student_name_last').value.trim();
     console.log(first + ' ' + last);
-    $.post('include/process.php?action=addStudent','first_name=' + first + '&last_name=' + last);
+    $.post('/teacher/include/process.php?action=addStudent','first_name=' + first + '&last_name=' + last);
     Materialize.toast('Student Added', 4000, 'rounded red lighten-2');
-    location.reload();
 })
  
 
-// Button to trigger Delete Student modal
-$('a.deleteButton').click(function(){
-  var id = $(this).attr('student_id');
-  var name = $(this).attr('student_name').split('+');
-  fullname = name[0] + ' ' + name[1];
-  console.log(fullname);
-  $('#modal1').modal('open');
-  document.getElementById('student_id_goes_here').innerHTML = fullname + ' ?';
-  document.getElementById('student_id_goes_here').innerHTML += '<input id="modal_student_id" type="hidden" value="'+id+'">';
-  return false;
 
-})
 
 // Cancel button inside delete student modal
 $('a.cancel-button').click(function(){
@@ -61,12 +51,28 @@ $('a.agree-button').click(function(){
     student = document.getElementById('modal_student_id');
     id = $(student).val();
     var student_id = "student_id="+id;
-   $.post('include/process.php?action=deleteStudent','student_id='+id);
-   console.log('include/process.php?action=deleteStudent','student_id='+id);
-  console.log(id);
-  Materialize.toast('Student deleted', 4000, 'rounded red lighten-2');
-  location.reload(); 
+    $.post('/teacher/include/process.php?action=deleteStudent','student_id='+id);
+    console.log(id);
+    Materialize.toast('Student deleted', 4000, 'rounded red lighten-2');
+    location.reload(); 
 })  
+
+// Button to trigger Delete Student modal
+
+$('a.deleteButton').click(function(event){
+  event.preventDefault();
+  console.log('is this thing on?');
+  var id = $(this).attr('student_id');
+  var name = $(this).attr('student_name').split('+');
+  fullname = name[0] + ' ' + name[1];
+  console.log(fullname);
+  console.log('delete button clicked');
+  // $('#modal1').modal('open');
+  document.getElementById('student_id_goes_here').innerHTML = fullname + ' ?';
+  document.getElementById('student_id_goes_here').innerHTML += '<input id="modal_student_id" type="hidden" value="'+id+'">';
+
+})
+
 
 // Search the table by student name
 function searchStudents() {

@@ -3,11 +3,11 @@
 	  include_once("include/config.php");
     include_once("include/functions.php");
     require "login/loginheader.php";
-    if (!$_GET['limit']) {
-      $limit = 500;
-    } else {
-      $limit = $_GET['limit'];
-    }
+      if (!$_GET['limit']) {
+        $limit = 500;
+      } else {
+        $limit = $_GET['limit'];
+      }
      //Select all students from DB
 	   $statement = $db_con->prepare("SELECT * from students WHERE student_id > :student_id LIMIT 500");
      $statement->execute(array(':student_id' => 0));
@@ -20,7 +20,9 @@
 
 ?>
 
+<script>
 
+</script>
  <!-- Delete Student Modal -->
   <div id="modal1" class="modal">
     <div class="modal-content">
@@ -46,16 +48,13 @@
       <a class="modal-action modal-close waves-effect waves-green btn-flat cancel-button">Cancel</a>
     </div>
   </div>
+  <script src="js/student.js"></script>
 
 
 
   <div class="container" style="margin-top:50px" id="main-content">
-  <a href="" class="waves-effect waves-light red btn modal-1 addStudent rounded">Add Student</a>
-     <!-- Responsive table starts here -->
-  <!-- For correct display on small screens you must add 'data-title' to each 'td' in your table -->
   <div class="table-responsive-vertical shadow-z-1">
-  <!-- Table starts here -->
-  <table id="keywords" class="table striped white ligthen-2">
+  <table id="keywords" class="table striped white ligthen-2" style="display: block; height: 80vh; overflow-y: auto;">
                 <thead>
                   <tr>
                     <th><h4 />Name</th>
@@ -76,7 +75,7 @@
                         echo '
                           <a class="btn green lighten-2" href="edit/'.$col[student_id].'">Edit Student<i class="material-icons left">edit</i></a>';
                       ?>
-                    &nbsp&nbsp <a href="#modal1" class="waves-effect waves-light red btn modal-1 deleteButton" student_id=<?= $col['student_id'];?> student_name=<?= $col['first_name'] .'+'. $col['last_name'];?> id="deleteButton">Delete Student<i class="material-icons left">delete_forever</i></a>
+                    &nbsp&nbsp <a href="#modal1" class="waves-effect waves-light red btn modal-1 deleteButton" student_id=<?= $col['student_id'];?> student_name=<?= $col['first_name'] .'+'. $col['last_name'];?> id="deleteButtonModal">Delete Student<i class="material-icons left">delete_forever</i></a>
                      &nbsp&nbsp<a class="btn blue lighten-2 "href="print/<?= $col['student_id']?>" target="_blank">Print full report<i class="material-icons left">print</i></a>
                     </td>
                   </tr>
@@ -87,10 +86,7 @@
                 
                 </tbody>
               </table>
-<script>
-
-</script>
-
+    <script src="js/student.js"></script>
 </div>
 
 

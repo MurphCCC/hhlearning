@@ -1,7 +1,6 @@
 <?php
 	include_once("functions.php");
 	require "../login/loginheader.php";
-
     $db_con = new PDO('mysql:host=localhost;dbname=updater', 'updater', 'Eddy1010');
 	$error  = array();
 	$res    = array();
@@ -32,25 +31,24 @@
 			echo json_encode($resp);
 			exit;
 		}
-		$pass = md5($_POST['password']);
 
 		  $sqlQuery = "INSERT INTO students(first_name,last_name)
-		  VALUES(:first_name,:last_name)";		   
+		  VALUES(:first_name,:last_name)";
 		  $run = $db_con->prepare($sqlQuery);
-		  $run->bindParam(':first_name', $_POST['first_name'], PDO::PARAM_STR);  
-		  $run->bindParam(':last_name', $_POST['last_name'], PDO::PARAM_STR); 
+		  $run->bindParam(':first_name', $_POST['first_name'], PDO::PARAM_STR);
+		  $run->bindParam(':last_name', $_POST['last_name'], PDO::PARAM_STR);
 		  $run->execute();
 		  $resp['msg']    = "Student added successfully";
-		  $resp['status'] = true;	
+		  $resp['status'] = true;
 		   echo json_encode($resp);
-			exit;	 
+			exit;
 
 			if (!$run) {
 			    echo "\nPDO::errorInfo():\n";
 			    print_r($db_con->errorInfo());
 			}
-		 
-		
+
+
 	}
 	// Check if our action parameter is set and if it is set to editStudent.  This gets appended to the url in include/student.js
 	// for the onclick action.  The save button click is handled by include/student.js
