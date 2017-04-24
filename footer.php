@@ -14,7 +14,8 @@
           </div>
         </footer>
 
-<script src="js/student.js">
+
+
   </body>
 
 </html>

@@ -138,12 +138,13 @@
 
 	<script>
 	//Submit button for making changes to student
-		$( "#editStudent" ).click(function() {
+		$( "#editStudent" ).click(function(event) {
 			event.preventDefault();
 			console.log( $( "form" ).serialize() );
 			 $.post("include/process.php?action=editStudent&", $("form").serialize());
-			 // location.reload();
 			Materialize.toast('Student updated successfully',2200);
+			    setTimeout(location.reload.bind(location), 2500);
+
 		})
 
 		$('#first_name').keyup(function() {

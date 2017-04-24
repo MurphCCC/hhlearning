@@ -23,8 +23,8 @@ include_once("include/functions.php");
     
     <link href="css/style.css" rel="stylesheet">
     <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/student.js"></script>
-
+<!--     <script src="js/student.js"></script>
+ -->
 
   <!-- Compiled and minified JavaScript -->
   <script type="text/javascript" src="js/materialize.min.js"></script>
@@ -79,6 +79,28 @@ include_once("include/functions.php");
 
       ';
       } ?>
+      <script>
+      // Search the table by student name
+function searchStudents() {
+  var input, filter, table, tr, td, i;
+  x = 0;
+  input = document.getElementById("search");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("keywords");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+</script>
 
       </div>
     </div>

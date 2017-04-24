@@ -1,28 +1,43 @@
 <?php 
-    include_once("header.php"); 
-	  include_once("include/config.php");
-    include_once("include/functions.php");
-    require "login/loginheader.php";
-      if (!$_GET['limit']) {
-        $limit = 500;
-      } else {
-        $limit = $_GET['limit'];
-      }
-     //Select all students from DB
-	   $statement = $db_con->prepare("SELECT * from students WHERE student_id > :student_id LIMIT 500");
-     $statement->execute(array(':student_id' => 0));
-     $list = $statement->fetchAll(PDO::FETCH_ASSOC);
+include_once("header.php"); 
+  class StudentList {
+    public $student_id, $first_name, $last_name,
+    $link;
 
-      //Show number of students in the database
-      $stmt = $db_con->prepare("SELECT student_id FROM students");
-      $stmt->execute();
-      $student_count = $stmt->rowCount();
+    public function __construct() {
+      $this->name = "{$this->first_name} {$this->last_name}";
+      $this->edit = "<a class='btn green lighten-2' href='edit/{$this->student_id}'> Edit Student <i class='material-icons left'>edit</i></a>";
+    }
+  }
+  
+  try {
+    $query = $db_con->query("SELECT * from students");
+    $query->setFetchMode(PDO::FETCH_CLASS, "StudentList");
+    echo "Prepare statment" . memory_get_usage() . "\n";
+  } catch(PDOException $e) {
+    echo $e->getMessage();
+  }
+
+  $colcount = $query->rowCount();
+
+
+//   try {
+//     $query = $statement->fetchAll(PDO::FETCH_OBJ);
+//      $statement->execute(array(':student_id' => 0));
+//     echo "execute statement" . memory_get_usage() . "\n";
+
+//      $list = $statement->fetchAll(PDO::FETCH_OBJ);
+//     echo "FetchAll" . memory_get_usage() . "\n";
+
+//      $colcount = $statement->rowCount();
+//     echo memory_get_usage() . "\n";
+//       } catch(PDOException $e) {
+//         echo $e->getMessage();
+//       }
+// print_r(PDO::getAvailableDrivers());
 
 ?>
 
-<script>
-
-</script>
  <!-- Delete Student Modal -->
   <div id="modal1" class="modal">
     <div class="modal-content">
@@ -51,43 +66,61 @@
   <script src="js/student.js"></script>
 
 
-
   <div class="container" style="margin-top:50px" id="main-content">
   <div class="table-responsive-vertical shadow-z-1">
   <table id="keywords" class="table striped white ligthen-2" style="display: block; height: 80vh; overflow-y: auto;">
                 <thead>
                   <tr>
                     <th><h4 />Name</th>
+                    <th><h4 />Showing: <?= $colcount; ?> Students.</th>
                   </tr>
                 </thead>
                 <tbody>
                 
                  <?php
-				foreach($list as $col)
-				{
-				  ?>
-                  <tr id="row_num_<?= $col['student_id'];   ?>">
-                    <td data-title="Name" id="students_name"><h5 /> <?= $col['first_name'] . ' ' . $col['last_name'] ?> </td>            
+
+                 
+
+          while ($s = $query->fetch()) {
+
+				  ?> 
+
+                  <td data-title='Name' id='students_name'><h5><?= $s->name;?></h5></td>
                       <td data-title="Actions">
 
                       <?php
                       $i = 1;
-                        echo '
-                          <a class="btn green lighten-2" href="edit/'.$col[student_id].'">Edit Student<i class="material-icons left">edit</i></a>';
+                        echo $s->edit;
                       ?>
-                    &nbsp&nbsp <a href="#modal1" class="waves-effect waves-light red btn modal-1 deleteButton" student_id=<?= $col['student_id'];?> student_name=<?= $col['first_name'] .'+'. $col['last_name'];?> id="deleteButtonModal">Delete Student<i class="material-icons left">delete_forever</i></a>
-                     &nbsp&nbsp<a class="btn blue lighten-2 "href="print/<?= $col['student_id']?>" target="_blank">Print full report<i class="material-icons left">print</i></a>
+                    &nbsp&nbsp <a href="#modal1" class="waves-effect waves-light red btn modal-1 deleteButton" student_id=<?= $s->student_id;?> student_name=<?php $s->name ;?> id="deleteButtonModal">Delete Student<i class="material-icons left">delete_forever</i></a>
+                     &nbsp&nbsp<a class="btn blue lighten-2 "href="print/<?= $s->student_id?>" target="_blank">Print full report<i class="material-icons left">print</i></a>
                     </td>
                   </tr>
              
       
-                  <?php } ?>
+                  <?php } echo memory_get_usage() . "\n";?>
                    
                 
                 </tbody>
               </table>
-    <script src="js/student.js"></script>
-</div>
+<!--     <script src="js/student.js"></script>
+ -->
+ <script type="text/javascript">// Button to trigger Delete Student modal
+
+$('a.deleteButton').click(function(event){
+  event.preventDefault();
+  console.log('is this thing on?');
+  var id = $(this).attr('student_id');
+  var name = $(this).attr('student_name').split('+');
+  fullname = name[0] + ' ' + name[1];
+  console.log(fullname);
+  console.log('delete button clicked');
+  // $('#modal1').modal('open');
+  document.getElementById('student_id_goes_here').innerHTML = fullname + ' ?';
+  document.getElementById('student_id_goes_here').innerHTML += '<input id="modal_student_id" type="hidden" value="'+id+'">';
+
+})</script>
+ </div>
 
 
 											

@@ -8,6 +8,7 @@ $(document).ready(function(){
 // Button to trigger our Add Student modal
 $('a.addStudent').click(function(event){
   event.preventDefault();
+  event.stopPropagation();
   $('#addStudentModal').modal('open');
   console.log('is this thing on add student?');
   return false;
@@ -25,23 +26,26 @@ $('#student_name_last').keyup(function() {
         this.value = this.value.charAt(0).toUpperCase()+this.value.slice(1).toLowerCase();
     });
 
-$('a.add-button').click(function(){
+$('a.add-button').click(function(event){
   $('#addStudentModal').modal('close');
+    event.preventDefault();
     student = document.getElementById('modal_student_id');
     first = document.getElementById('student_name_first').value.trim();
     last = document.getElementById('student_name_last').value.trim();
     console.log(first + ' ' + last);
     $.post('/teacher/include/process.php?action=addStudent','first_name=' + first + '&last_name=' + last);
     Materialize.toast('Student Added', 4000, 'rounded red lighten-2');
+    setTimeout(location.reload.bind(location), 2500);
+    return false;
 })
  
 
 
 
 // Cancel button inside delete student modal
-$('a.cancel-button').click(function(){
+$('a.cancel-button').click(function(event){
+  event.preventDefault();
   document.getElementById('student_id_goes_here').innerHTML = 'No changes have been made to student';
-  $('#modal1').modal('close');
   Materialize.toast('No changes made', 4000, 'rounded blue lighten-2') 
 })
 
@@ -54,43 +58,10 @@ $('a.agree-button').click(function(){
     $.post('/teacher/include/process.php?action=deleteStudent','student_id='+id);
     console.log(id);
     Materialize.toast('Student deleted', 4000, 'rounded red lighten-2');
-    location.reload(); 
+    setTimeout(location.reload.bind(location), 2500);
 })  
 
-// Button to trigger Delete Student modal
-
-$('a.deleteButton').click(function(event){
-  event.preventDefault();
-  console.log('is this thing on?');
-  var id = $(this).attr('student_id');
-  var name = $(this).attr('student_name').split('+');
-  fullname = name[0] + ' ' + name[1];
-  console.log(fullname);
-  console.log('delete button clicked');
-  // $('#modal1').modal('open');
-  document.getElementById('student_id_goes_here').innerHTML = fullname + ' ?';
-  document.getElementById('student_id_goes_here').innerHTML += '<input id="modal_student_id" type="hidden" value="'+id+'">';
-
-})
 
 
-// Search the table by student name
-function searchStudents() {
-  var input, filter, table, tr, td, i;
-  x = 0;
-  input = document.getElementById("search");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("keywords");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
 
-    if (td) {
-      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }       
-  }
-}
+
