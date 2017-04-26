@@ -23,6 +23,8 @@ include_once("include/functions.php");
     
     <link href="css/style.css" rel="stylesheet">
     <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="https://togetherjs.com/togetherjs-min.js">TogetherJSConfig_getUserName = function () {return 'User Name';};</script>
+
 <!--     <script src="js/student.js"></script>
  -->
 
@@ -57,15 +59,14 @@ include_once("include/functions.php");
     <div class="nav-wrapper blue lighten-1">
       <a href="/teacher" class="brand-logo">Hilger Higher Learning</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><button class="waves-effect waves-light btn orange modal-1 addStudent rounded"onclick="TogetherJS(this); return false;">Collaborate</button></li>
 	<li><a href="#addStudentModal" class="waves-effect waves-light btn orange modal-1 addStudent rounded">Add Student</a></li>
         <li><a class="btn green lighten-2" href="printAll.php" target="_blank">Print All Reports<i class="material-icons left">print</i></a></li>
         <li><a class="waves-effect waves-light btn red rounded lighten-1" href="login/logout.php">Logout</a></li>
       </ul>
       <div class="col sm-1">
       <?php 
-        if($nav === 'hide') {
 
-        } else { 
           echo '
             <form class="blue lighten-2 student">
                     <div class="input-field">
@@ -78,7 +79,7 @@ include_once("include/functions.php");
 
 
       ';
-      } ?>
+      ?>
       <script>
       // Search the table by student name
 function searchStudents() {

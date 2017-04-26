@@ -60,7 +60,7 @@ include("inc/StudentList.inc.php");
           <td data-title='Name' id='students_name'><h5><?= $s->name; ?></h5></td>
           <td data-title="Actions">
           <?= $s->edit; ?>
-            <a href="#modal1" class="waves-effect waves-light red btn modal-1 deleteButton" student_id=<?= $s->student_id;?> student_name=<?php $s->name ;?> id="deleteButtonModal">Delete Student<i class="material-icons left">delete_forever</i></a>
+            <a href="#modal1" class="waves-effect waves-light red btn modal-1 deleteButton" student_id=<?= $s->student_id;?> student_name='<?= $s->name ;?>' id="deleteButtonModal">Delete Student<i class="material-icons left">delete_forever</i></a>
             <a class="btn blue lighten-2 "href="print/<?= $s->student_id?>" target="_blank">Print full report<i class="material-icons left">print</i></a>
           </td>
           </tr>
@@ -76,14 +76,9 @@ include("inc/StudentList.inc.php");
 
       $('a.deleteButton').click(function(event){
         event.preventDefault();
-        console.log('is this thing on?');
         var id = $(this).attr('student_id');
         var name = $(this).attr('student_name').split('+');
-        fullname = name[0] + ' ' + name[1];
-        console.log(fullname);
-        console.log('delete button clicked');
-        // $('#modal1').modal('open');
-        document.getElementById('student_id_goes_here').innerHTML = fullname + ' ?';
+        document.getElementById('student_id_goes_here').innerHTML = name + ' ?';
         document.getElementById('student_id_goes_here').innerHTML += '<input id="modal_student_id" type="hidden" value="'+id+'">';
 
       })

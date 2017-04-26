@@ -9,4 +9,5 @@
       $this->edit = "<a class='btn green lighten-2' href='edit/{$this->student_id}'> Edit Student <i class='material-icons left'>edit</i></a>";
     }
   }
+
 ?>

@@ -1,24 +1,29 @@
 <?php
 	include_once("functions.php");
 	require "../login/loginheader.php";
-    $db_con = new PDO('mysql:host=localhost;dbname=updater', 'updater', 'Eddy1010');
+	require "config.php";
 	$error  = array();
 	$res    = array();
 	$success = "";
 
+	$first_name = $_REQUEST['first_name'];
+	$last_name = $_REQUEST['last_name'];
+	$student_id = $_REQUEST['student_id'];
+
+
 	$_SESSION['first_name'] = $_POST['first_name'];
 
 	if (isset($_GET['unlock'])) {
-		$dblock->unlockClass($_GET['student_id'], $_GET['course']);
+		$dblock->unlockClass($student_id, $_GET['course']);
 	} else {};
 
 	if(isset($_REQUEST['action']) && $_REQUEST['action'] == "addStudent")
 	{
-		if(empty($_POST['first_name']))
+		if(empty($first_name))
 		{
 			$error[] = "First Name field is required";	
 		}
-		if(empty($_POST['last_name']))
+		if(empty($last_name))
 		{
 			$error[] = "Last Name field is required";	
 		}
@@ -35,8 +40,8 @@
 		  $sqlQuery = "INSERT INTO students(first_name,last_name)
 		  VALUES(:first_name,:last_name)";
 		  $run = $db_con->prepare($sqlQuery);
-		  $run->bindParam(':first_name', $_POST['first_name'], PDO::PARAM_STR);
-		  $run->bindParam(':last_name', $_POST['last_name'], PDO::PARAM_STR);
+		  $run->bindParam(':first_name', $first_name, PDO::PARAM_STR);
+		  $run->bindParam(':last_name', $last_name, PDO::PARAM_STR);
 		  $run->execute();
 		  $resp['msg']    = "Student added successfully";
 		  $resp['status'] = true;
@@ -68,9 +73,9 @@
 			  				c".$i."_feedback = :c".$i."_feedback
 			  				 WHERE student_id = :student_id";
 			  $run = $db_con->prepare($sqlQuery);
-			  $run->bindParam(':student_id', $_REQUEST['student_id'], PDO::PARAM_STR);
-			  $run->bindParam(':first_name', $_REQUEST['first_name'], PDO::PARAM_STR); 
-			  $run->bindParam(':last_name', $_REQUEST['last_name'], PDO::PARAM_STR); 
+			  $run->bindParam(':student_id', $student_id, PDO::PARAM_STR);
+			  $run->bindParam(':first_name', $first_name, PDO::PARAM_STR); 
+			  $run->bindParam(':last_name', $last_name, PDO::PARAM_STR); 
 			  $run->bindParam(':c'.$i.'_course', $_REQUEST['c'.$i.'_course'], PDO::PARAM_STR); 
 			  $run->bindParam(':c'.$i.'_grade', urlencode($_REQUEST['c'.$i.'_grade']), PDO::PARAM_STR);
 			  $run->bindParam(':c'.$i.'_feedback', $_REQUEST['c'.$i.'_feedback'], PDO::PARAM_STR);
@@ -80,7 +85,7 @@
 						    echo "\nPDO::errorInfo():\n";
 						    print_r($db_con->errorInfo());
 						}	
-			  $resp['msg']    = $_REQUEST['first_name'] . $_SESSION['username'] . 'class Updated successfully';
+			  $resp['msg']    = $first_name . $_SESSION['username'] . 'class Updated successfully';
 			  $resp['status'] = true;	
 			  echo json_encode($resp);
 		   	  // $dblock->unlock($_POST['student_id']);
@@ -97,13 +102,13 @@
 		  				c1_feedback = :c1_feedback
 		  				 WHERE student_id = :student_id";
 		  $run = $db_con->prepare($sqlQuery);
-		  $run->bindParam(':first_name', $_POST['first_name'], PDO::PARAM_STR);  
-		  $run->bindParam(':last_name', $_POST['last_name'], PDO::PARAM_STR); 
+		  $run->bindParam(':first_name', $first_name, PDO::PARAM_STR);  
+		  $run->bindParam(':last_name', $last_name, PDO::PARAM_STR); 
 		  $run->bindParam(':c1_course', $_POST['c1_course'], PDO::PARAM_STR); 
 		  $run->bindParam(':c1_teacher',$_POST['c1_teacher'], PDO::PARAM_STR); 
 		  $run->bindParam(':c1_grade', $_POST['c1_grade'], PDO::PARAM_STR);
 		  $run->bindParam(':c1_feedback', $_POST['c1_feedback'], PDO::PARAM_STR);		  
-		  $run->bindParam(':student_id', $_POST['student_id'], PDO::PARAM_STR);
+		  $run->bindParam(':student_id', $student_id, PDO::PARAM_STR);
 		  $run->execute(); 
 		  		   			if (!$run) {
 					    echo "\nPDO::errorInfo():\n";
@@ -121,7 +126,7 @@
 	{
 		  $sqlQuery = "DELETE FROM students WHERE student_id =  :student_id";
 	      $run = $db_con->prepare($sqlQuery);
-	      $run->bindParam(':student_id', $_POST['student_id'], PDO::PARAM_STR);   
+	      $run->bindParam(':student_id', $student_id, PDO::PARAM_STR);   
 	      $run->execute();
 		  $resp['status'] = true;
 		  $resp['msg'] = "Record deleted successfully";
