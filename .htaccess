@@ -11,6 +11,7 @@ RewriteBase /teacher/
 RewriteRule ^index?$ index.php
 #RewriteRule ^edit?$ edit.php
 RewriteRule ^edit/([0-9]+) edit.php?student_id=$1
+RewriteRule ^print/all printAll.php
 RewriteRule ^login/main?$ login/main_login.php
 RewriteRule ^login/signup?$ login/signup.php
 RewriteRule ^login/create?$ login/createuser.php

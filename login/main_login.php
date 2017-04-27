@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['username'])) {
-    header("location:../index");
+    header("location: ../");
 }
 ?>
 <!DOCTYPE html>
@@ -10,19 +10,17 @@ if (isset($_SESSION['username'])) {
     <meta charset="utf-8">
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <!-- Compiled and minified CSS -->
-  <link rel="stylesheet" href="../css/materialize.min.css">
-
-  <!-- Compiled and minified JavaScript -->
-  <script src="../js/materialize.min.js"></script>
+    <!-- Bootstrap -->
+    <link href="../css/materialize.min.css" rel="stylesheet" media="screen">
+    <link href="../css/main.css" rel="stylesheet" media="screen">
   </head>
 
   <body>
     <div class="container">
-    <div class="row">
-      <form class="form-signin col s6 center" name="form1" method="post" action="checklogin.php">
+
+      <form class="form-signin" name="form1" method="post" action="checklogin.php">
         <h2 class="form-signin-heading">Please sign in</h2>
-        <div class="input-field col s6 center"><input name="myusername" id="myusername" type="text" class="form-control" placeholder="Username" autofocus>
+        <input name="myusername" id="myusername" type="text" class="form-control" placeholder="Username" autofocus>
         <input name="mypassword" id="mypassword" type="password" class="form-control" placeholder="Password">
         <!-- The checkbox remember me is not implemented yet...
         <label class="checkbox">
@@ -37,8 +35,10 @@ if (isset($_SESSION['username'])) {
     </div> <!-- /container -->
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="../js/jquery-3.2.1.min.js"></script>
-        <!-- The AJAX login script -->
+    <script src="js/jquery-2.2.4.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <!-- The AJAX login script -->
     <script src="js/login.js"></script>
 
   </body>
