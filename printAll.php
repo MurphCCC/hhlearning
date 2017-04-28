@@ -138,7 +138,7 @@ class PDF extends FPDF
                             $pdf->Cell(10);
                             $teacher = "Instructor: " . $row['c'.$i.'_teacher'];
                             $teacher = trim($teacher);
-                            $teacher = iconv('UTF-8', 'windows-1252', trim($teacher));
+                            $teacher = iconv('UTF-8', 'windows-1252', ucwords($teacher));
                             $pdf->Cell(0,5,$teacher,0,1,'L');
                             
                             $pdf->Ln(1);

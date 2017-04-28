@@ -138,7 +138,7 @@ class PDF extends FPDF
                             
                             $pdf->Cell(10);
                             $teacher = "Instructor: " . $row['c'.$i.'_teacher'];
-                            $teacher = iconv('UTF-8', 'windows-1252', trim($teacher));
+                            $teacher = iconv('UTF-8', 'windows-1252', ucwords(trim($teacher)));
                             $pdf->Cell(0,5,$teacher,0,1,'L');
                             
                             $pdf->Ln(1);
@@ -147,7 +147,8 @@ class PDF extends FPDF
                             $pdf->Cell(10);
                             $feedback = $row['c'.$i.'_feedback'];
                             $feedback = iconv('UTF-8', 'windows-1252', trim($feedback)); //Ensure that were getting correct punctation in the pdf output.  Without this punctuation will be converted to funky characters.
-                            $pdf->Write(5, $feedback);
+                            $feedback = urldecode($feedback);
+			    $pdf->Write(5, $feedback);
                             $pdf->Ln(10);
                              if (empty($row['c'.$next_course.'_course'])) {
 
