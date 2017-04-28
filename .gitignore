@@ -1,3 +1,5 @@
 /include/config.php
 /admin/*
 /login/scripts/*
+/login/dbconf.php
+/login/includes/config.php
