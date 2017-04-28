@@ -7,6 +7,7 @@ require 'includes/functions.php';
 
 // Define $myusername and $mypassword
 $username = $_POST['myusername'];
+$username = ucwords($username);
 $password = $_POST['mypassword'];
 
 // To protect MySQL injection
