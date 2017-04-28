@@ -48,6 +48,7 @@
 		if ($list['c'.$i.'lock'] != 0 && $list['c'.$i.'_teacher'] != $_SESSION['username']) {
 
 		} else {
+			$time_stamp = $list[c.$i._updated];
 			echo '
 					<input type="hidden" value="'.$_GET["student_id"].'" name="student_id"></input>
 					<div class="row">
@@ -69,7 +70,7 @@
 							<i class="material-icons prefix">mode_edit</i>
 							<textarea rows="10" columns="10" value="'.$list[c.$i._feedback].'" name="c'.$i.'_feedback" id="c'.$i.'feedback" class="materialize-textarea">'.$list[c.$i._feedback].'</textarea>
 							<label for="feedback">Feedback</label>
-	
+						<h4><center>Last update: '.$time_stamp.'</center></h4>
 						</div>
 					</div>';
 					break;
