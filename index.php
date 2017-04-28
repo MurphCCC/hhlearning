@@ -6,7 +6,6 @@ include("inc/StudentList.inc.php");
   try {
     $query = $db_con->query("SELECT * from students");
     $query->setFetchMode(PDO::FETCH_CLASS, "StudentList");
-    echo "Prepare statment" . memory_get_usage() . "\n";
   } catch(PDOException $e) {
     echo $e->getMessage();
   }
@@ -64,14 +63,14 @@ include("inc/StudentList.inc.php");
             <a class="btn blue lighten-2 "href="print/<?= $s->student_id?>" target="_blank">Print full report<i class="material-icons left">print</i></a>
           </td>
           </tr>
-             
+
                   <!--  End our While loop -->
-                  <?php } echo memory_get_usage() . "\n";?> 
-                   
-                
+                  <?php }; ?>
+
+
         </tbody>
       </table>
-      
+
       <script type="text/javascript">// Button to trigger Delete Student modal
 
       $('a.deleteButton').click(function(event){
