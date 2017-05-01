@@ -32,12 +32,18 @@ $('a.add-button').click(function(event){
     student = document.getElementById('modal_student_id');
     first = document.getElementById('student_name_first').value.trim();
     last = document.getElementById('student_name_last').value.trim();
-    console.log(first + ' ' + last);
-    $.post('/teacher/include/process.php?action=addStudent','first_name=' + first + '&last_name=' + last);
-    Materialize.toast('Student Added', 4000, 'rounded red lighten-2');
-    setTimeout(location.reload.bind(location), 2500);
+    $.post('/teacher/include/process.php?action=addStudent',
+    {
+      first_name: first,
+      last_name: last
+    },
+    function(data,status){
+      console.log(data);
+      Materialize.toast(data, 'rounded red lighten-2');
+      // setTimeout(location.reload.bind(location), 2500);
+    })
     return false;
-})
+});
  
 
 
@@ -57,11 +63,6 @@ $('a.agree-button').click(function(){
     var student_id = "student_id="+id;
     $.post('/teacher/include/process.php?action=deleteStudent','student_id='+id);
     console.log(id);
-    Materialize.toast('Student deleted', 4000, 'rounded red lighten-2');
+    Materialize.toast(response, 'rounded red lighten-2');
     setTimeout(location.reload.bind(location), 2500);
-})  
-
-
-
-
-
+})

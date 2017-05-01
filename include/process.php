@@ -6,8 +6,8 @@
 	$error  = array();
 	$res    = array();
 	$success = "";
-	$first_name = $_REQUEST['first_name'];
-	$last_name = $_REQUEST['last_name'];
+	$first_name = ucwords($_REQUEST['first_name']);
+	$last_name = ucwords($_REQUEST['last_name']);
 	$student_id = $_REQUEST['student_id'];
 	$_SESSION['first_name'] = $_POST['first_name'];
 	if (isset($_GET['unlock'])) {
@@ -37,9 +37,12 @@
 		  $run->bindParam(':first_name', $first_name, PDO::PARAM_STR);
 		  $run->bindParam(':last_name', $last_name, PDO::PARAM_STR);
 		  $run->execute();
-		  $resp['msg']    = "Student added successfully";
+		  $resp['msg']    = $first_name ." ". $last_name ." added successfully";
 		  $resp['status'] = true;
-		   echo json_encode($resp);
+		  $data = array('msg'=> $first_name ." ". $last_name ." added successfully",
+              'status'=> true,
+             );
+			echo $first_name ." ". $last_name ." added successfully!";
 			exit;
 			if (!$run) {
 			    echo "\nPDO::errorInfo():\n";
@@ -109,15 +112,17 @@
 		  exit; 	
 	}
 	else if(isset($_REQUEST['action']) && $_REQUEST['action'] == "deleteStudent")
+
 	{
 		  $sqlQuery = "DELETE FROM students WHERE student_id =  :student_id";
 	      $run = $db_con->prepare($sqlQuery);
 	      $run->bindParam(':student_id', $student_id, PDO::PARAM_STR);   
 	      $run->execute();
 		  $resp['status'] = true;
-		  $resp['msg'] = "Record deleted successfully";
-		  echo json_encode($resp);
-		  
+		  $resp['msg']    = $first_name ." ". $last_name ." deleted";
+		  $_SESSION['response'] = $resp;
+		  exit;
+
 	}
 	else if(isset($_REQUEST['action']) && $_REQUEST['action'] == "listStudent")
 	{
