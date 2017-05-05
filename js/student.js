@@ -1,4 +1,4 @@
-// This is the script to manage the modal for deleting our student.  We want to pass in the student's name, and id from the table and present the teacher with an accept or cancel button.  The accept button, when clicked should send a post request to the process.php?action=deleteStudent&student_id=student id.  The cancel button should just close the modal. 
+// This is the script to manage the modal for deleting our student.  We want to pass in the student's name, and id from the table and present the teacher with an accept or cancel button.  The accept button, when clicked should send a post request to the process.php?action=deleteStudent&student_id=student id.  The cancel button should just close the modal.
 
 $(document).ready(function(){
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
@@ -27,11 +27,16 @@ $('#student_name_last').keyup(function() {
     });
 
 $('a.add-button').click(function(event){
-  $('#addStudentModal').modal('close');
-    event.preventDefault();
-    student = document.getElementById('modal_student_id');
-    first = document.getElementById('student_name_first').value.trim();
-    last = document.getElementById('student_name_last').value.trim();
+  event.preventDefault();
+  student = document.getElementById('modal_student_id');
+  first = document.getElementById('student_name_first').value.trim();
+  last = document.getElementById('student_name_last').value.trim();
+  // if (first.value != '' || first.value != first.defaultValue) {
+  //   alert('Please fill out First Name');
+  //   return false;
+  // }
+  //     $('#addStudentModal').modal('close');
+
     $.post('/teacher/include/process.php?action=addStudent',
     {
       first_name: first,
@@ -39,12 +44,13 @@ $('a.add-button').click(function(event){
     },
     function(data,status){
       console.log(data);
-      Materialize.toast(data, 'rounded red lighten-2');
-      // setTimeout(location.reload.bind(location), 2500);
+      Materialize.toast(data, 4000, 'rounded red lighten-2');
+      setTimeout(location.reload.bind(location), 2500);
     })
     return false;
+
 });
- 
+
 
 
 
@@ -52,7 +58,7 @@ $('a.add-button').click(function(event){
 $('a.cancel-button').click(function(event){
   event.preventDefault();
   document.getElementById('student_id_goes_here').innerHTML = 'No changes have been made to student';
-  Materialize.toast('No changes made', 4000, 'rounded blue lighten-2') 
+  Materialize.toast('No changes made', 4000, 'rounded blue lighten-2')
 })
 
 // Agreee button inside Delete Student modal
