@@ -76,14 +76,49 @@
 					break;
 		}			$i++;
 	}
-?>
 
+?>
+<p id="classes"><?php echo $i;?></p>
+<div id="demo"></div>
 				<div id="formcontrols" class="tab-pane active">
 					<div class="form-actions" id="form-actions">
+						<button class="btn btn-success" type="button" onclick="nextClass()">Edit next available class</button>
+
 						<button class="btn btn-primary" type="submit" id="editStudent">Save</button>
 						<button class="btn btn-danger" type="button" id="cancel" onclick="window.location='index.php'">Cancel</button>
 						<a href="print/<?php echo $list['student_id']?>" target="_blank"><button class="btn btn-info" type="button" id="print">Print full report</button></a>
 					</div>
+					<script>
+
+						var courses = [1];
+						i = '<?php echo $i ?>';
+					  c = courses[courses.length - 1];
+						x = '<?php echo $_GET['student_id'] ?>';
+
+					    function nextClass() {
+					      if (i >= 7) {
+									console.log('you have reached the limit');
+					      return;
+					      } else {
+					        if (courses.includes(i)) {
+					        courses.push(++i)
+					        console.log(courses);
+					        document.getElementById("classes").innerHTML = 'The next available class is ' + courses[courses.length - 1];
+								} else {
+									courses.push(i);
+								}
+					    	}
+								 var xhttp = new XMLHttpRequest();
+							   xhttp.onreadystatechange = function() {
+							  	 if (this.readyState == 4 && this.status == 200) {
+							  		 document.getElementById("demo").innerHTML += this.responseText;
+							  	 }
+							   };
+							   xhttp.open("GET", "testform.php?course=" + courses[courses.length - 1] + "&student_id=" + x, true);
+							   xhttp.send();
+					    }
+
+					 </script>
 
 					</div>
 
