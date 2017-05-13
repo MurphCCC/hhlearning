@@ -62,33 +62,33 @@
 		$teacher = $_SESSION['username'];
 		//	Check which class we are working with and update it accordingly.
 		$i = 1;
-		while ($i <= 7) {
-			if (isset($_REQUEST['c'.$i.'_course'])) {
+		while ($i <= 14) {
+			if (isset($_REQUEST[$i.'_course'])) {
 				$sqlQuery = "UPDATE students SET first_name = :first_name,
 							last_name = :last_name,
-							c".$i."_course  = :c".$i."_course,
-			  				c".$i."_grade   = :c".$i."_grade,
-			  				c".$i."_feedback = :c".$i."_feedback,
-			  				c".$i."_updated = now()
+							".$i."_course  = :".$i."_course,
+			  				".$i."_grade   = :".$i."_grade,
+			  				".$i."_feedback = :".$i."_feedback,
+			  				".$i."_updated = now()
 			  				 WHERE student_id = :student_id";
 			  $run = $db_con->prepare($sqlQuery);
 			  $run->bindParam(':student_id', $student_id, PDO::PARAM_STR);
 			  $run->bindParam(':first_name', $first_name, PDO::PARAM_STR);
 			  $run->bindParam(':last_name', $last_name, PDO::PARAM_STR);
-			  $run->bindParam(':c'.$i.'_course', $_REQUEST['c'.$i.'_course'], PDO::PARAM_STR);
-			  $run->bindParam(':c'.$i.'_grade', urlencode($_REQUEST['c'.$i.'_grade']), PDO::PARAM_STR);
-			  $run->bindParam(':c'.$i.'_feedback', $_REQUEST['c'.$i.'_feedback'], PDO::PARAM_STR);
+				$run->bindParam(':'.$i.'_course', $_REQUEST[$i.'_course'], PDO::PARAM_STR);
+			  $run->bindParam(':'.$i.'_grade', urlencode($_REQUEST[$i.'_grade']), PDO::PARAM_STR);
+			  $run->bindParam(':'.$i.'_feedback', $_REQUEST[$i.'_feedback'], PDO::PARAM_STR);
 			  $run->execute();
 
 			  		   			if (!$run) {
 						    echo "\nPDO::errorInfo():\n";
 						    print_r($db_con->errorInfo());
 						}
-						echo $first_name . ' ' . $last_name . ' ' . ' has been Updated Successfully';
+						echo $first_name . ' ' . $last_name . ' ' . ' has been Updated Successfully <br />';
 
-			  exit;
-			}
+			} 
 			$i++;
+
 		}
 	}
 
@@ -110,11 +110,13 @@
 
 	else if(isset($_REQUEST['action']) && $_REQUEST['action'] == "listStudent")
 	{
-	    $statement = $db_con->prepare("SELECT * froms student where student_id > :student_id");
+	    $statement = $db_con->prepare("SELECT * from student where student_id > :student_id");
         $statement->execute(array(':student_id' => 0));
 		$row = $statement->fetchAll(PDO::FETCH_ASSOC);
 		echo "<pre>";
 		print_r($row);
 		echo "</pre>";
 	}
+
+
 ?>
