@@ -3,13 +3,15 @@
 	  include_once("include/config.php");
 	  include_once("include/functions.php");
 	   $fetch_student_info = $db_con->prepare("SELECT * from students where student_id = :student_id");
-       $fetch_lock = $db_con->prepare("SELECT c1lock, c2lock, c3lock, c4lock, c5lock, c6lock, c7lock FROM students WHERE student_id = :student_id");
-       $fetch_lock->execute(array(':student_id' => $_GET['student_id']));
-       $locks = $fetch_lock->fetch(PDO::FETCH_ASSOC);
+      //  $fetch_lock = $db_con->prepare("SELECT c1lock, c2lock, c3lock, c4lock, c5lock, c6lock, c7lock FROM students WHERE student_id = :student_id");
+      //  $fetch_lock->execute(array(':student_id' => $_GET['student_id']));
+      //  $locks = $fetch_lock->fetch(PDO::FETCH_ASSOC);
        $fetch_student_info->execute(array(':student_id' => $_GET['student_id']));
 	   $list = $fetch_student_info->fetch(PDO::FETCH_ASSOC);
 	   $i = 1;
-
+		 echo '<pre>';
+var_dump($list);
+		echo '</pre>';
 ?>
 
 <!-- 	<div class="container" style="margin-top:50px">
@@ -40,42 +42,67 @@
           <label for="last_name">Last Name</label>
         </div>
       </div>
+			<input type="hidden" value="<?php echo $_GET["student_id"]; ?>" name="student_id"></input>
 
 <?php
 
-	while ($i <= 7) {
-		$user = $_SESSION['username'];
-		if ($list['c'.$i.'lock'] != 0 && $list['c'.$i.'_teacher'] != $_SESSION['username']) {
 
-		} else {
-			$time_stamp = $list[c.$i._updated];
-			echo '
-					<input type="hidden" value="'.$_GET["student_id"].'" name="student_id"></input>
-					<div class="row">
-						<div class="input-field col s4">
-							<input type="text" value="'.$list[c.$i._course].'" name="c'.$i.'_course" required id="course" class="validate">
-							<label for="course">Class'.$i.' Course</label>
-						</div>
-					</div>
+		for ($i = 1; $i <= 7; $i++) {
+				while ($i <= 7) {
+					if ($list[$i.'lock'] != 0 && $list[$i.'_teacher'] != $_SESSION['username']) { //If lock field is set and the teacher associated with that lock is not the authenticated user, do nothing and move on to the next class.
+							var_dump($i);
+							$i++;
+							var_dump($i);
+							continue;
+					}  else {
+									$time_stamp = $list[c.$i._updated];
 
-					<div class="row">
-						<div class="input-field col s4">
-							<input type="text" value="'.$list[c.$i._grade].'" name="c'.$i.'_grade" required id="grade" class="validate">
-							<label for="course">Class'.$i.' grade</label>
-						</div>
-					</div>
+									echo '
 
-					<div class="row">
-						<div class="input-field col s10">
-							<i class="material-icons prefix">mode_edit</i>
-							<textarea rows="10" columns="10" value="'.$list[c.$i._feedback].'" name="c'.$i.'_feedback" id="c'.$i.'feedback" class="materialize-textarea">'.$list[c.$i._feedback].'</textarea>
-							<label for="feedback">Feedback</label>
-						<h4><center>Last update: '.$time_stamp.'</center></h4>
-						</div>
-					</div>';
-					break;
-		}			$i++;
+											<div class="row">
+												<div class="input-field col s4">
+													<input type="text" value="'.$list[$i._course].'" name="'.$i.'_course" required id="course" class="validate">
+													<label for="course">Class'.$i.' Course</label>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="input-field col s4">
+													<input type="text" value="'.$list[$i._grade].'" name="'.$i.'_grade" required id="grade" class="validate">
+													<label for="course">Class'.$i.' grade</label>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="input-field col s10">
+													<i class="material-icons prefix">mode_edit</i>
+													<textarea rows="10" columns="10" value="'.$list[$i._feedback].'" name="'.$i.'_feedback" id="'.$i.'feedback" class="materialize-textarea">'.$list[$i._feedback].'</textarea>
+													<label for="feedback">Feedback</label>
+												<h4><center>Last update: '.$time_stamp.'</center></h4>
+												</div>
+											</div>';
+											$dblock->lockClass($i);
+
+											if ($list[$i.'lock'] != 1) {
+												var_dump($i);
+												break 2;
+												var_dump($i);
+											}
+											var_dump($i);
+							}
+							// This block of code will display the next numerical available class.  Before I added this last block, the code would skip a number so I could never get the next available class, I would get the next one after the next available.  So for example if I had a lock on class 7 but their was no lock on class 8, I would get class 9 as my only option.
+							if ($list[$i.'_teacher'] != $_SESSION['username']) {
+								continue;
+							} else {
+								break 1;
+							}
+							$i++;
+							var_dump($i);
+
+				}
+
 	}
+
 
 ?>
 <p id="classes"><?php echo $i;?></p>
@@ -89,14 +116,15 @@
 						<a href="print/<?php echo $list['student_id']?>" target="_blank"><button class="btn btn-info" type="button" id="print">Print full report</button></a>
 					</div>
 					<script>
-
-						var courses = [1];
 						i = '<?php echo $i ?>';
+						var courses = [1, + i];
+
+						console.log(course);
 					  c = courses[courses.length - 1];
 						x = '<?php echo $_GET['student_id'] ?>';
 
 					    function nextClass() {
-					      if (i >= 7) {
+					      if (i >= 14) {
 									console.log('you have reached the limit');
 					      return;
 					      } else {
@@ -145,14 +173,14 @@
 
           	var i = <?php echo $i; ?>;
 
-          	document.getElementById("c" +i+ "course").addEventListener("keyup", function(event) {
+          	document.getElementById(i + "course").addEventListener("keyup", function(event) {
     			event.preventDefault();
     				if (event.keyCode == 13) {
         			document.getElementById("editStudent").click();
     				}
 			});
 
-          	document.getElementById("c" +i+ "grade").addEventListener("keyup", function(event) {
+          	document.getElementById(i + "grade").addEventListener("keyup", function(event) {
     			event.preventDefault();
     				if (event.keyCode == 13) {
         			document.getElementById("editStudent").click();
@@ -164,14 +192,20 @@
 
 	<script>
 	//Submit button for making changes to student
-		$( "#editStudent" ).click(function(event) {
-			event.preventDefault();
-			console.log( $( "form" ).serialize() );
-			 $.post("include/process.php?action=editStudent&", $("form").serialize());
-			Materialize.toast('Student updated successfully',2200);
-			    setTimeout(location.reload.bind(location), 2500);
+	$( "#editStudent" ).click(function(event) {
+		event.preventDefault();
+		student = $("form").serialize(); // Serialize our form entry into a variable
 
-		})
+		 $.post("include/process.php?action=editStudent& " + student, // Include our serialized form data in our post request
+				function(d, s){ // Return a response from our process.php script to the user
+					console.log(student);
+					Materialize.toast(d, 2200); // Display a toast with the database response
+					// setTimeout(location.reload.bind(location), 2500); // Reload our page
+
+	 });
+
+
+	})
 		// Make sure that entries in our form start with uppercase letters regardless of what the user types.
 		$('#first_name, #last_name, #course').keyup(function() {
         	this.value = this.value.charAt(0).toUpperCase()+this.value.slice(1);
@@ -184,6 +218,5 @@
           <?php
 
           	include_once("footer.php");
-          	$dblock->lockClass($i);
 
           ?>
