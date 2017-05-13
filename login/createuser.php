@@ -40,7 +40,7 @@ if ($pw1 != $pw2) {
 
         $a = new NewUserForm;
 
-        $response = $a->createUser($newuser, $newid, $newemail, $newpw);
+        $response = $a->createUser($newuser, $newid, $_POST['email'], $newpw);
 
         //Success
         if ($response == 'true') {
@@ -61,3 +61,5 @@ if ($pw1 != $pw2) {
         echo 'An error occurred on the form... try again';
     }
 };
+
+?>

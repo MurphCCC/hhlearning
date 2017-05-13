@@ -11,18 +11,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+<BASE href="https://hhlearning.com/teacher/">
     <meta charset="utf-8">
     <title>Signup</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
-    <link href="../css/bootstrap.css" rel="stylesheet" media="screen">
-    <link href="../css/main.css" rel="stylesheet" media="screen">
+    <link href="css/materialize.min.css" rel="stylesheet" media="screen">
+    <link href="css/main.css" rel="stylesheet" media="screen">
   </head>
 
   <body>
     <div class="container">
 
-      <form class="form-signup" id="usersignup" name="usersignup" method="post" action="createuser.php">
+      <form class="form-signup" id="usersignup" name="usersignup" method="post" action="login/create">
         <h2 class="form-signup-heading">Register</h2>
         <input name="newuser" id="newuser" type="text" class="form-control" placeholder="Username" autofocus>
         <input name="email" id="email" type="text" class="form-control" placeholder="Email">
@@ -40,13 +41,12 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="//code.jquery.com/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+    <script src="login/js/signup.js"></script>
 
-    <script src="js/signup.js"></script>
 
-
-    <script src="http://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
-<script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+    <script src="https://jqueryvalidation.org/files/dist/jquery.validate.min.js"></script>
+<script src="https://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
 <script>
 
 $( "#usersignup" ).validate({
@@ -68,4 +68,3 @@ $( "#usersignup" ).validate({
 
   </body>
 </html>
-

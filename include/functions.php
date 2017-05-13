@@ -3,7 +3,7 @@ include_once("config.php");	// Our DB connection resides here
 
 
 
-	/*	
+	/*
 	*
 	*	A class to hold our functions to lock and unlock a row in the database for editing.  When a teacher begins editing a student
 	*	we set a field called lock = 1.  When the teacher saves the entry, we set the flag back to zero.  Before a teacher begins
@@ -11,7 +11,7 @@ include_once("config.php");	// Our DB connection resides here
 	*
 	*/
 	class dbLocker
-	
+
 	{
 
 		public function lock() {
@@ -26,9 +26,11 @@ include_once("config.php");	// Our DB connection resides here
 
 		public function lockClass($class) {
 			$lock = 1;
+			$clock = $class . 'lock';
+			$cteacher = $class . '_teacher';
 			global $db_con;	// Our database connection, created in config.php
 
-			$b= $db_con->prepare("UPDATE students SET `c".$class."lock`= $lock, `c".$class."_teacher` = :teacher WHERE student_id = :student_id");
+			$b= $db_con->prepare("UPDATE students SET `$clock`= $lock, `$cteacher` = :teacher WHERE student_id = :student_id");
 			$b->bindParam(":student_id",$_GET['student_id'], PDO::PARAM_STR);
 			$b->bindParam(":teacher",$_SESSION['username'], PDO::PARAM_STR);
 			$b->execute();
@@ -39,7 +41,7 @@ include_once("config.php");	// Our DB connection resides here
 			$lock = 0;
 			global $db_con;	// Our database connection, created in config.php
 
-			$b= $db_con->prepare("UPDATE students SET `c".$course."lock`= $lock WHERE student_id = :student_id");
+			$b= $db_con->prepare("UPDATE students SET `$course.'lock'`= $lock WHERE student_id = :student_id");
 			$b->bindParam(":student_id",$id, PDO::PARAM_STR);
 			$b->execute();
 			$b = null;
@@ -57,7 +59,7 @@ include_once("config.php");	// Our DB connection resides here
 		public function unlock($course, $id) {
 			global $db_con;	// Our database connection, created in config.php
 
-			$b= $db_con->prepare("UPDATE students SET `c".$course."lock`= '0' WHERE student_id = :student_id");
+			$b= $db_con->prepare("UPDATE students SET `$course.'lock'`= '0' WHERE student_id = :student_id");
 			$b->bindParam(":student_id",$id, PDO::PARAM_STR);
 	    	$b->execute();
 		}
@@ -74,5 +76,7 @@ include_once("config.php");	// Our DB connection resides here
 
 
 	$dblock = new dbLocker;
+
+
 
 ?>

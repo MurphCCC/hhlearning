@@ -67,8 +67,10 @@ $('a.agree-button').click(function(){
     student = document.getElementById('modal_student_id');
     id = $(student).val();
     var student_id = "student_id="+id;
-    $.post('/teacher/include/process.php?action=deleteStudent','student_id='+id);
-    console.log(id);
-    Materialize.toast(response, 'rounded red lighten-2');
-    setTimeout(location.reload.bind(location), 2500);
+    $.post('/teacher/include/process.php?action=deleteStudent','student_id='+id,
+    function(data, status) {
+      Materialize.toast(data, 'rounded red lighten-2');
+      setTimeout(location.reload.bind(location), 2500);
+    })
+
 })

@@ -1,10 +1,11 @@
-<?php 
-include_once("header.php"); 
+<?php
+include_once("header.php");
 include("inc/StudentList.inc.php");
+// print_r($_SESSION['response']['msg']);  //Response message from database, if student was added successfully.
 
-  
+// print_r($_SESSION[0]);
   try {
-    $query = $db_con->query("SELECT * from students");
+    $query = $db_con->query("SELECT * from students ORDER BY `students`.`last_name` ASC");
     $query->setFetchMode(PDO::FETCH_CLASS, "StudentList");
   } catch(PDOException $e) {
     echo $e->getMessage();
@@ -13,7 +14,10 @@ include("inc/StudentList.inc.php");
   $colcount = $query->rowCount();
 
 ?>
-
+  <script>
+  response = '<?php echo $_SESSION["response"]["msg"]; ?>';
+  console.log(response);
+  </script>
  <!-- Delete Student Modal -->
   <div id="modal1" class="modal">
     <div class="modal-content">
@@ -31,8 +35,8 @@ include("inc/StudentList.inc.php");
   <div id="addStudentModal" class="modal">
     <div class="modal-content">
       <h4>Add Student</h4>
-      <h4>First name:</h4><input type="text" name="first_name" id="student_name_first"></input>
-      <h4/>Last name:<input type="text" name="last_name" id="student_name_last"></input>
+      <h4>First name:</h4><input required type="text" name="first_name" id="student_name_first"></input>
+      <h4/>Last name:<input required type="text" name="last_name" id="student_name_last"></input>
     </div>
     <div class="modal-footer">
       <a class="modal-action modal-close waves-effect waves-green btn-flat add-button">Add Student</a>
@@ -52,9 +56,9 @@ include("inc/StudentList.inc.php");
           </tr>
       </thead>
         <tbody>
-                
+
         <!--  Start our While loop  -->
-        <?php while ($s = $query->fetch()) {?> 
+        <?php while ($s = $query->fetch()) {?>
 
           <td data-title='Name' id='students_name'><h5><?= $s->name; ?></h5></td>
           <td data-title="Actions">
@@ -85,6 +89,6 @@ include("inc/StudentList.inc.php");
  </div>
 
 
-											
-											
+
+
   <?php include_once("footer.php");  ?>
