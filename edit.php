@@ -3,34 +3,12 @@
 	  include_once("include/config.php");
 	  include_once("include/functions.php");
 	   $fetch_student_info = $db_con->prepare("SELECT * from students where student_id = :student_id");
-      //  $fetch_lock = $db_con->prepare("SELECT c1lock, c2lock, c3lock, c4lock, c5lock, c6lock, c7lock FROM students WHERE student_id = :student_id");
-      //  $fetch_lock->execute(array(':student_id' => $_GET['student_id']));
-      //  $locks = $fetch_lock->fetch(PDO::FETCH_ASSOC);
-       $fetch_student_info->execute(array(':student_id' => $_GET['student_id']));
+		 $fetch_student_info->execute(array(':student_id' => $_GET['student_id']));
 	   $list = $fetch_student_info->fetch(PDO::FETCH_ASSOC);
 	   $i = 1;
-		 echo '<pre>';
-var_dump($list);
-		echo '</pre>';
 ?>
-
-<!-- 	<div class="container" style="margin-top:50px">
-		<div class="row"> -->
-		  	<?php
-
-  				if ($list['lock'] === '1' && $list['c1editor'] != $_SESSION['username']) {
- 					echo '<div class="jumbotron">';
-					echo '<h1> Sorry this student is currently being edited.</h1>';
-					echo '</div>';
-
-
-
-  				} else {
-
-  				?>
   <div class="row">
   <div class="container white" style="margin-top:50px">
-
     <form class="col s10 white" action="#" method="post">
       <div class="row">
         <div class="input-field col s5">
@@ -50,12 +28,10 @@ var_dump($list);
 		for ($i = 1; $i <= 7; $i++) {
 				while ($i <= 7) {
 					if ($list[$i.'lock'] != 0 && $list[$i.'_teacher'] != $_SESSION['username']) { //If lock field is set and the teacher associated with that lock is not the authenticated user, do nothing and move on to the next class.
-							var_dump($i);
 							$i++;
-							var_dump($i);
 							continue;
 					}  else {
-									$time_stamp = $list[c.$i._updated];
+									$time_stamp = $list[$i._updated];
 
 									echo '
 
@@ -84,11 +60,8 @@ var_dump($list);
 											$dblock->lockClass($i);
 
 											if ($list[$i.'lock'] != 1) {
-												var_dump($i);
 												break 2;
-												var_dump($i);
 											}
-											var_dump($i);
 							}
 							// This block of code will display the next numerical available class.  Before I added this last block, the code would skip a number so I could never get the next available class, I would get the next one after the next available.  So for example if I had a lock on class 7 but their was no lock on class 8, I would get class 9 as my only option.
 							if ($list[$i.'_teacher'] != $_SESSION['username']) {
@@ -97,7 +70,6 @@ var_dump($list);
 								break 1;
 							}
 							$i++;
-							var_dump($i);
 
 				}
 
@@ -109,10 +81,9 @@ var_dump($list);
 <div id="demo"></div>
 				<div id="formcontrols" class="tab-pane active">
 					<div class="form-actions" id="form-actions">
-						<button class="btn btn-success" type="button" onclick="nextClass()">Edit next available class</button>
-
-						<button class="btn btn-primary" type="submit" id="editStudent">Save</button>
-						<button class="btn btn-danger" type="button" id="cancel" onclick="window.location='index.php'">Cancel</button>
+						<button class="btn green darken-2 rounded" type="button" onclick="nextClass()">Edit next available class</button>
+						<button class="btn green lighten-2 rounded" type="submit" id="editStudent">Save</button>
+						<button class="btn red darken-2 rounded" type="button" id="cancel" onclick="window.location='index.php'">Cancel</button>
 						<a href="print/<?php echo $list['student_id']?>" target="_blank"><button class="btn btn-info" type="button" id="print">Print full report</button></a>
 					</div>
 					<script>
@@ -151,9 +122,6 @@ var_dump($list);
 					</div>
 
 								</form>
-								<?php }?>
-
-
 								</div>
 								</div>
           </div>
