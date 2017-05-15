@@ -1,8 +1,8 @@
 <?php
 require "login/loginheader.php";
 
-     $i = $_GET['course'];
 
+    $i = $_GET['course'];
 
   function printCourse($i) {
 
@@ -11,14 +11,13 @@ require "login/loginheader.php";
 
 
     $fetch_student_info = $db_con->prepare("SELECT * from students where student_id = :student_id");
-
-      $fetch_student_info->execute(array(':student_id' => $_GET['student_id']));
+    $fetch_student_info->execute(array(':student_id' => $_GET['student_id']));
     $list = $fetch_student_info->fetch(PDO::FETCH_ASSOC);
 
+    while ($i <= 14) {
 
     if ($list[$i.'lock'] != 0 && $list[$i.'_teacher'] != $_SESSION['username']) {
-      echo 'try again';
-
+      $i++;
     } else {
 
       echo '
@@ -32,7 +31,7 @@ require "login/loginheader.php";
       <div class="row">
         <div class="input-field col s4">
           <p>Class'.$i.' grade<p>
-          <input type="text" value="'.$list[$i._grade].'" name="'.$i.'_grade" required id="grade" class="validate">
+          <input type="text" value="'.$list[$i."_grade"].'" name="'.$i.'_grade" required id="grade" class="validate">
 
         </div>
       </div>
@@ -41,7 +40,7 @@ require "login/loginheader.php";
         <div class="input-field col s10">
           <i class="material-icons prefix">mode_edit</i>
           <p>Feedback</p>
-          <textarea rows="10" columns="10" value="'.$list[$i._feedback].'" name="'.$i.'_feedback" id="'.$i.'feedback" class="materialize-textarea">'.$list[$i._feedback].'</textarea>
+          <textarea rows="10" columns="10" value="'.$list[$i."_feedback"].'" name="'.$i.'_feedback" id="'.$i.'feedback" class="materialize-textarea">'.$list[$i."_feedback"].'</textarea>
 
         <h4><center>Last update: '.$time_stamp.'</center></h4>
         </div>
@@ -52,7 +51,10 @@ require "login/loginheader.php";
 			$b->bindParam(":teacher",$_SESSION['username'], PDO::PARAM_STR);
 			$b->execute();
 			$b = null;
+      $i++;
+      break 1;
       }
+    }
   }
 
   printCourse($i);
