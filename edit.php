@@ -184,23 +184,20 @@
 			</script>
 
 
-	<script>
-	//Submit button for making changes to student
-		$( "#editStudent" ).click(function(event) {
-			event.preventDefault();
-			console.log( $( "form" ).serialize() );
-			 $.post("include/process.php?action=editStudent&", $("form").serialize());
-			Materialize.toast('Student updated successfully',2200);
-			    setTimeout(location.reload.bind(location), 2500);
-
-		})
-		// Make sure that entries in our form start with uppercase letters regardless of what the user types.
-		$('#first_name, #last_name, #course').keyup(function() {
-        	this.value = this.value.charAt(0).toUpperCase()+this.value.slice(1);
-    	});
-
-
-	</script>
+			<script>
+				//Submit button for making changes to student
+					$( "#editStudent" ).click(function(event) {
+						event.preventDefault();
+						console.log( $( "form" ).serialize() );
+						 $.post("include/process.php?action=editStudent&", $("form").serialize());
+						Materialize.toast('Student updated successfully',2200);
+						    setTimeout(location.reload.bind(location), 2500);
+					})
+					// Make sure that entries in our form start with uppercase letters regardless of what the user types.
+					$('#first_name, #last_name, #course').keyup(function() {
+			        	this.value = this.value.charAt(0).toUpperCase()+this.value.slice(1);
+			    	});
+				</script>
 
 
           <?php
