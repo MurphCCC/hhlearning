@@ -81,12 +81,14 @@
 <div id="demo"></div>
 				<div id="formcontrols" class="tab-pane active">
 					<div class="form-actions" id="form-actions">
-						<button class="btn green darken-2 rounded" type="button" onclick="nextClass()">Edit next available class</button>
+						<button class="btn pink darken-2 rounded" type="button" id="loadNextClass" onclick="nextClass()">Edit next available class</button>
 						<button class="btn green lighten-2 rounded" type="submit" id="editStudent">Save</button>
 						<button class="btn red darken-2 rounded" type="button" id="cancel" onclick="window.location='index.php'">Cancel</button>
 						<a href="print/<?php echo $list['student_id']?>" target="_blank"><button class="btn btn-info" type="button" id="print">Print full report</button></a>
 					</div>
 					<script>
+
+
 						i = '<?php echo $i ?>';
 						var courses = [1, + i];
 
@@ -110,7 +112,7 @@
 								 var xhttp = new XMLHttpRequest();
 							   xhttp.onreadystatechange = function() {
 							  	 if (this.readyState == 4 && this.status == 200) {
-							  		 document.getElementById("demo").innerHTML += this.responseText;
+												document.getElementById("demo").innerHTML += this.responseText;
 							  	 }
 							   };
 							   xhttp.open("GET", "testform.php?course=" + courses[courses.length - 1] + "&student_id=" + x, true);
@@ -141,14 +143,15 @@
 
           	var i = <?php echo $i; ?>;
 
-          	document.getElementById(i + "course").addEventListener("keyup", function(event) {
+
+          	document.getElementById(i + "_course").addEventListener("keyup", function(event) {
     			event.preventDefault();
     				if (event.keyCode == 13) {
         			document.getElementById("editStudent").click();
     				}
 			});
 
-          	document.getElementById(i + "grade").addEventListener("keyup", function(event) {
+          	document.getElementById(i + "_grade").addEventListener("keyup", function(event) {
     			event.preventDefault();
     				if (event.keyCode == 13) {
         			document.getElementById("editStudent").click();
