@@ -31,6 +31,7 @@ if (isset($uid) && !empty(str_replace(' ', '', $uid)) && isset($verify) && !empt
     //Success
     if ($vresponse == 'true') {
         echo $activemsg;
+        header('Location: https://hhlearning.com/teacher');
 
         //Send verification email
         $m = new MailSender;
