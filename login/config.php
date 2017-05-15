@@ -5,7 +5,7 @@ include 'globalcon.php';
 include 'dbconf.php';
 
 //Set this for global site use
-$site_name = 'Test Site';
+$site_name = 'Hilger Higher Learning Teachers';
 
 //Maximum Login Attempts
 $max_attempts = 5;
@@ -18,7 +18,7 @@ $admin_email = '';
 //EMAIL SETTINGS
 //SEND TEST EMAILS THROUGH FORM TO https://www.mail-tester.com GENERATED ADDRESS FOR SPAM SCORE
 $from_email = 'hilgerhigheronline@gmail.com'; //Webmaster email
-$from_name = 'Meleah Smith'; //"From name" displayed on email
+$from_name = 'Hilger Higher Learning Teacher Signup'; //"From name" displayed on email
 
 //Find specific server settings at https://www.arclab.com/en/kb/email/list-of-smtp-and-pop3-servers-mailserver-list.html
 $mailServerType = 'smtp';

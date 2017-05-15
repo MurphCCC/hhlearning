@@ -3,6 +3,7 @@ $(document).ready(function(){
   $("#submit").click(function(){
 
     var username = $("#newuser").val();
+    username = username.replace(/\b[a-z]/g,function(f){return f.toUpperCase();}); // Uppercase the first letter of each word, to allow teachers to create a username in the form of Firstname Lastname, regardless of whether or not they type their name in caps.
     var password = $("#password1").val();
     var password2 = $("#password2").val();
     var email = $("#email").val();
