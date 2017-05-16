@@ -185,19 +185,28 @@
 
 
 			<script>
-				//Submit button for making changes to student
-					$( "#editStudent" ).click(function(event) {
-						event.preventDefault();
-						console.log( $( "form" ).serialize() );
-						 $.post("include/process.php?action=editStudent&", $("form").serialize());
-						Materialize.toast('Student updated successfully',2200);
-						    setTimeout(location.reload.bind(location), 2500);
-					})
-					// Make sure that entries in our form start with uppercase letters regardless of what the user types.
-					$('#first_name, #last_name, #course').keyup(function() {
-			        	this.value = this.value.charAt(0).toUpperCase()+this.value.slice(1);
-			    	});
-				</script>
+			//Submit button for making changes to student
+			$( "#editStudent" ).click(function(event) {
+				event.preventDefault();
+				student = $("form").serialize(); // Serialize our form entry into a variable
+
+				 $.post("include/process.php?action=editStudent& " + student, // Include our serialized form data in our post request
+						function(d, s){ // Return a response from our process.php script to the user
+							console.log(student);
+							Materialize.toast(d, 2200); // Display a toast with the database response
+							// setTimeout(location.reload.bind(location), 2500); // Reload our page
+
+			 });
+
+
+			})
+				// Make sure that entries in our form start with uppercase letters regardless of what the user types.
+				$('#first_name, #last_name, #course').keyup(function() {
+		        	this.value = this.value.charAt(0).toUpperCase()+this.value.slice(1);
+		    	});
+
+
+			</script>
 
 
           <?php
