@@ -86,7 +86,7 @@
 						}
 						echo $first_name . ' ' . $last_name . ' ' . ' has been Updated Successfully <br />';
 
-			} 
+			}
 			$i++;
 
 		}
@@ -116,6 +116,21 @@
 		echo "<pre>";
 		print_r($row);
 		echo "</pre>";
+	}
+	else if(isset($_REQUEST['action']) && $_REQUEST['action'] == "lock")
+	{
+				$lock = $_GET['course'];
+				$teacher = $_GET['teacher'];
+				$statement = $db_con->prepare("UPDATE students SET $lock = 1, $teacher = :teacher WHERE student_id = :student_id");
+				$statement->bindParam(':student_id', $student_id, PDO::PARAM_STR);
+				$statement->bindParam(':teacher', $_SESSION['username'], PDO::PARAM_STR);
+				$statement->execute();
+				echo 'Locking class';
+		// 		$statement->execute(array(':student_id' => 0));
+		// $row = $statement->fetchAll(PDO::FETCH_ASSOC);
+		// echo "<pre>";
+		// print_r($row);
+		// echo "</pre>";
 	}
 
 
